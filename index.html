@@ -10,8 +10,9 @@
   *{box-sizing:border-box;margin:0;padding:0;}
   html,body{height:100%;overflow:hidden;}
   body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;}
-  body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.6;}
+  body::after{content:'';position:fixed;inset:0;opacity:.5;pointer-events:none;z-index:9999;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");}
 
+  /* CHROME */
   #chrome{position:fixed;top:0;left:0;right:0;height:58px;z-index:500;background:rgba(8,8,8,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 32px;gap:20px;}
   .ch-logo{font-family:'Cinzel',serif;font-size:17px;color:var(--gold);letter-spacing:.12em;}
   .ch-sep{width:1px;height:20px;background:var(--border);}
@@ -20,95 +21,128 @@
   .ch-clock{font-family:'Cinzel',serif;font-size:15px;color:var(--text);letter-spacing:.06em;}
   .ch-online{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);}
   .ch-dot{width:7px;height:7px;border-radius:50%;background:var(--green);}
-  .ch-avatars{display:flex;gap:4px;}
   .av{width:28px;height:28px;border-radius:50%;background:var(--bg-panel);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold);}
   .sync-pill{font-size:10px;padding:3px 10px;border-radius:10px;border:1px solid;transition:all .3s;}
   .sync-pill.live{border-color:var(--green);color:var(--green);background:rgba(91,152,112,.1);}
   .sync-pill.syncing{border-color:var(--amber);color:var(--amber);background:rgba(196,135,42,.1);animation:blink .8s infinite;}
   @keyframes blink{0%,100%{opacity:1;}50%{opacity:.4;}}
 
+  /* TABS */
   #tabs{position:fixed;top:58px;left:0;right:0;height:46px;z-index:400;background:var(--bg-card);border-bottom:1px solid var(--border);display:flex;align-items:stretch;padding:0 32px;gap:2px;}
-  .tab{display:flex;align-items:center;gap:8px;padding:0 18px;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);font-size:12px;font-weight:500;letter-spacing:.03em;transition:all .2s;white-space:nowrap;}
+  .tab{display:flex;align-items:center;gap:8px;padding:0 16px;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);font-size:12px;font-weight:500;transition:all .2s;white-space:nowrap;}
   .tab:hover{color:var(--text);}
   .tab.active{color:var(--gold);border-bottom-color:var(--gold);}
   .tab-num{font-family:'Cinzel',serif;font-size:9px;color:var(--dim);}
   .tab.active .tab-num{color:var(--gold-dim);}
 
-  #content{position:fixed;top:104px;left:0;right:0;bottom:0;overflow-y:auto;padding:36px 48px 48px;}
-  .panel{display:none;animation:fadeUp .35s ease;}
+  /* CONTENT */
+  #content{position:fixed;top:104px;left:0;right:0;bottom:0;overflow-y:auto;padding:32px 44px 44px;}
+  .panel{display:none;animation:fadeUp .3s ease;}
   .panel.active{display:block;}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
-  .ph{margin-bottom:32px;}
+  /* HEADERS */
+  .ph{margin-bottom:28px;}
   .ph-tag{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.22em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px;}
-  .ph-title{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;line-height:1.08;}
+  .ph-title{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;line-height:1.08;}
   .ph-title em{font-style:italic;color:var(--gold);}
 
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
-  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  /* VIEW TOGGLE */
+  .view-toggle{display:flex;gap:6px;margin-bottom:24px;align-items:center;}
+  .vt-btn{padding:7px 18px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:all .2s;}
+  .vt-btn:hover{color:var(--text);border-color:var(--border-hi);}
+  .vt-btn.active{background:var(--gold);color:#080808;border-color:var(--gold);}
+  .vt-label{font-size:11px;color:var(--dim);margin-left:8px;}
 
-  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:5px;padding:24px;margin-bottom:16px;}
-  .card-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  /* REVEAL BTN */
+  .reveal-btn{padding:8px 18px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border:1px solid var(--amber);background:rgba(196,135,42,.1);color:var(--amber);transition:all .2s;margin-left:auto;}
+  .reveal-btn:hover{background:rgba(196,135,42,.2);}
+  .reveal-btn.revealed{border-color:var(--green);background:rgba(91,152,112,.1);color:var(--green);}
+
+  /* CARDS */
+  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:5px;padding:22px;margin-bottom:16px;}
+  .card-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
   .card-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--gold-dim),transparent);}
 
-  .dc{background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:14px 16px;min-height:52px;font-size:14px;color:var(--text);line-height:1.6;word-break:break-word;transition:all .4s;}
+  /* PARTICIPANT HEADER */
+  .part-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+  .part-av{width:36px;height:36px;border-radius:50%;background:var(--bg-panel);border:1.5px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--gold);flex-shrink:0;}
+  .part-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--gold);}
+  .part-role{font-size:11px;color:var(--muted);}
+  .part-sbu-tag{font-size:10px;padding:2px 8px;border-radius:2px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--gold-dim);margin-left:auto;}
+
+  /* DATA CELLS */
+  .dc{background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:12px 14px;min-height:44px;font-size:13px;color:var(--text);line-height:1.6;word-break:break-word;transition:all .4s;}
   .dc.empty{color:var(--dim);font-style:italic;font-size:12px;}
-  .dc.new-flash{border-color:var(--gold);background:rgba(201,168,76,.06);box-shadow:0 0 0 3px rgba(201,168,76,.1);}
-  .dc-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  .dc.new-flash{border-color:var(--gold);background:rgba(201,168,76,.06);box-shadow:0 0 0 3px rgba(201,168,76,.08);}
+  .dc-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
 
-  .cand-card{background:var(--bg-panel);border:1px solid var(--border);border-radius:4px;padding:18px;position:relative;transition:border-color .4s;margin-bottom:12px;}
+  /* CANDIDATE CARDS */
+  .cand-card{background:var(--bg-panel);border:1px solid var(--border);border-radius:4px;padding:16px;position:relative;transition:border-color .4s;margin-bottom:10px;}
   .cand-card.new-flash{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.08);}
-  .cand-num{font-family:'Cinzel',serif;font-size:28px;color:var(--dim);position:absolute;top:12px;right:16px;line-height:1;}
-  .cand-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--gold);margin-bottom:2px;}
-  .cand-role{font-size:12px;color:var(--muted);margin-bottom:10px;}
-  .cand-why{font-size:13px;color:var(--text);line-height:1.65;border-top:1px solid var(--border);padding-top:10px;margin-top:8px;}
-  .cand-tag{font-size:10px;padding:2px 8px;border-radius:2px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--gold-dim);margin-right:4px;}
+  .cand-num{font-family:'Cinzel',serif;font-size:24px;color:var(--dim);position:absolute;top:10px;right:14px;line-height:1;}
+  .cand-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--gold);margin-bottom:2px;}
+  .cand-tag{font-size:10px;padding:2px 7px;border-radius:2px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--gold-dim);margin-right:4px;margin-bottom:4px;display:inline-block;}
+  .cand-why{font-size:13px;color:var(--text);line-height:1.6;border-top:1px solid var(--border);padding-top:8px;margin-top:8px;}
 
-  .rp-pill{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:3px;font-size:14px;font-weight:700;border:1px solid;}
+  /* RATINGS */
+  .rp-pill{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:3px;font-size:13px;font-weight:700;border:1px solid;}
   .rpp{background:rgba(91,152,112,.2);border-color:var(--green);color:var(--green);}
   .rpm{background:rgba(196,135,42,.2);border-color:var(--amber);color:var(--amber);}
   .rpn{background:rgba(184,72,72,.2);border-color:var(--red);color:var(--red);}
-  .rpe{background:var(--bg-panel);border-color:var(--border);color:var(--dim);font-size:11px;}
+  .rpe{background:var(--bg-panel);border-color:var(--border);color:var(--dim);font-size:10px;}
 
-  .tier-badge{display:inline-block;padding:4px 14px;border-radius:3px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;font-weight:600;text-transform:uppercase;}
+  /* TIER */
+  .tier-badge{display:inline-block;padding:3px 12px;border-radius:3px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.1em;font-weight:600;text-transform:uppercase;}
   .t-now{background:rgba(91,152,112,.18);border:1px solid var(--green);color:var(--green);}
   .t-soon{background:rgba(72,120,160,.18);border:1px solid var(--blue);color:var(--blue);}
   .t-later{background:rgba(196,135,42,.18);border:1px solid var(--amber);color:var(--amber);}
   .t-unready{background:rgba(184,72,72,.18);border:1px solid var(--red);color:var(--red);}
   .t-empty{background:var(--bg-panel);border:1px solid var(--border);color:var(--dim);}
 
-  .bc{border-radius:4px;padding:20px 16px;text-align:center;border:1px solid;}
+  /* BENCH */
+  .bench-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+  .bc{border-radius:4px;padding:18px 14px;text-align:center;border:1px solid;}
   .bc.now{border-color:var(--green);background:rgba(91,152,112,.07);}
   .bc.soon{border-color:var(--blue);background:rgba(72,120,160,.07);}
   .bc.later{border-color:var(--amber);background:rgba(196,135,42,.07);}
   .bc.unr{border-color:var(--red);background:rgba(184,72,72,.07);}
-  .bc-num{font-family:'Cinzel',serif;font-size:48px;font-weight:600;line-height:1;margin-bottom:6px;}
+  .bc-num{font-family:'Cinzel',serif;font-size:42px;font-weight:600;line-height:1;margin-bottom:4px;}
   .bc.now .bc-num{color:var(--green);}
   .bc.soon .bc-num{color:var(--blue);}
   .bc.later .bc-num{color:var(--amber);}
   .bc.unr .bc-num{color:var(--red);}
-  .bc-lbl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .bc-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
 
-  .rt{display:inline-block;padding:2px 9px;border-radius:2px;font-size:11px;font-weight:600;letter-spacing:.05em;}
+  /* GRIDS */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+
+  /* OV STAT */
+  .ov-stat{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:18px;text-align:center;}
+  .ov-stat-num{font-family:'Cinzel',serif;font-size:34px;color:var(--gold);line-height:1;margin-bottom:4px;}
+  .ov-stat-lbl{font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.06em;text-transform:uppercase;}
+
+  /* ROCK TAG */
+  .rt{display:inline-block;padding:2px 8px;border-radius:2px;font-size:10px;font-weight:600;letter-spacing:.05em;}
   .rt-s{background:rgba(91,152,112,.15);color:var(--green);}
   .rt-c{background:rgba(196,135,42,.15);color:var(--amber);}
   .rt-p{background:rgba(72,120,160,.15);color:var(--blue);}
   .rt-j{background:rgba(201,168,76,.15);color:var(--gold);}
 
-  .phase-box{background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:16px;}
-  .phase-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.15em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:4px;}
-  .phase-title{font-size:13px;font-weight:600;color:var(--gold);margin-bottom:10px;}
+  /* MILESTONE */
+  .ms-track{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .ms-band{background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:10px;}
+  .ms-lbl{font-family:'Cinzel',serif;font-size:9px;color:var(--gold-dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
 
-  .ms-track{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-  .ms-band{background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:13px;}
-  .ms-lbl{font-family:'Cinzel',serif;font-size:9px;color:var(--gold-dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;}
+  hr{border:none;border-top:1px solid var(--border);margin:14px 0;}
 
-  .ov-stat{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:20px;text-align:center;}
-  .ov-stat-num{font-family:'Cinzel',serif;font-size:36px;color:var(--gold);line-height:1;margin-bottom:4px;}
-  .ov-stat-lbl{font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.06em;text-transform:uppercase;}
+  /* PARTICIPANT SECTION BLOCK */
+  .part-block{background:var(--bg-card);border:1px solid var(--border);border-radius:5px;padding:22px;margin-bottom:20px;}
 
-  hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
+  /* EMPTY */
+  .empty-msg{color:var(--dim);font-style:italic;font-size:13px;padding:20px 0;text-align:center;}
 
   ::-webkit-scrollbar{width:4px;}
   ::-webkit-scrollbar-track{background:var(--bg);}
@@ -129,7 +163,7 @@
   <div class="ch-mode">Facilitator Display</div>
   <div class="ch-right">
     <div class="ch-online"><div class="ch-dot"></div><span id="onlineCount">0 online</span></div>
-    <div class="ch-avatars" id="chAvatars"></div>
+    <div style="display:flex;gap:4px;" id="chAvatars"></div>
     <div class="ch-sep"></div>
     <div class="sync-pill live" id="syncPill">● Live</div>
     <div class="ch-sep"></div>
@@ -140,7 +174,7 @@
 <div id="tabs">
   <div class="tab active" onclick="showPanel('p0',this)"><span class="tab-num">—</span>Overview</div>
   <div class="tab" onclick="showPanel('p1',this)"><span class="tab-num">1</span>Candidates</div>
-  <div class="tab" onclick="showPanel('p2',this)"><span class="tab-num">2</span>Role Map</div>
+  <div class="tab" onclick="showPanel('p2',this)"><span class="tab-num">2</span>Role Maps</div>
   <div class="tab" onclick="showPanel('p3',this)"><span class="tab-num">3</span>PA &amp; GWC</div>
   <div class="tab" onclick="showPanel('p4',this)"><span class="tab-num">4</span>Growth Maps</div>
   <div class="tab" onclick="showPanel('p5',this)"><span class="tab-num">5</span>Dev Rocks</div>
@@ -151,431 +185,506 @@
 
   <!-- OVERVIEW -->
   <div class="panel active" id="p0">
-    <div class="ph"><div class="ph-tag">Succession Planning Workshop · PGB</div><div class="ph-title">Live Session<br><em>Overview</em></div></div>
-    <div class="grid4" style="margin-bottom:24px;">
+    <div class="ph"><div class="ph-tag">Facilitator View · PGB Succession Planning</div><div class="ph-title">Live Session<br><em>Overview</em></div></div>
+    <div class="grid4" style="margin-bottom:22px;">
       <div class="ov-stat"><div class="ov-stat-num" id="ov-part">0</div><div class="ov-stat-lbl">Online Now</div></div>
       <div class="ov-stat"><div class="ov-stat-num" id="ov-cands">0</div><div class="ov-stat-lbl">Candidates Named</div></div>
       <div class="ov-stat"><div class="ov-stat-num" id="ov-rocks">0</div><div class="ov-stat-lbl">Dev Rocks Planned</div></div>
       <div class="ov-stat"><div class="ov-stat-num" id="ov-pct">0%</div><div class="ov-stat-lbl">Fields Filled</div></div>
     </div>
-    <div class="grid2" style="margin-bottom:20px;">
-      <div class="card">
-        <div class="card-title">Session Details</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div><div class="dc-label">Workshop Date</div><div class="dc" id="ov-date"></div></div>
-          <div><div class="dc-label">Facilitator</div><div class="dc" id="ov-fac"></div></div>
-          <div><div class="dc-label">Location</div><div class="dc" id="ov-loc"></div></div>
-          <div><div class="dc-label">Dashboard Owner</div><div class="dc" id="ov-own"></div></div>
-        </div>
-      </div>
+    <div class="grid2" style="margin-bottom:18px;">
       <div class="card">
         <div class="card-title">Participants Online</div>
         <div id="ov-plist"></div>
       </div>
+      <div class="card">
+        <div class="card-title">Bench Summary (All Participants)</div>
+        <div class="bench-grid">
+          <div class="bc now"><div class="bc-num" id="ov-bn">0</div><div class="bc-lbl">Ready Now</div></div>
+          <div class="bc soon"><div class="bc-num" id="ov-bs">0</div><div class="bc-lbl">Ready Soon</div></div>
+          <div class="bc later"><div class="bc-num" id="ov-bl">0</div><div class="bc-lbl">Ready Later</div></div>
+          <div class="bc unr"><div class="bc-num" id="ov-bu">0</div><div class="bc-lbl">Unready</div></div>
+        </div>
+      </div>
     </div>
     <div class="card">
-      <div class="card-title">Bench Summary</div>
-      <div class="grid4">
-        <div class="bc now"><div class="bc-num" id="ov-bn">0</div><div class="bc-lbl">Ready Now</div></div>
-        <div class="bc soon"><div class="bc-num" id="ov-bs">0</div><div class="bc-lbl">Ready Soon</div></div>
-        <div class="bc later"><div class="bc-num" id="ov-bl">0</div><div class="bc-lbl">Ready Later</div></div>
-        <div class="bc unr"><div class="bc-num" id="ov-bu">0</div><div class="bc-lbl">Unready</div></div>
-      </div>
+      <div class="card-title">Submission Progress</div>
+      <div id="progress-rows"></div>
     </div>
   </div>
 
   <!-- CANDIDATES -->
   <div class="panel" id="p1">
     <div class="ph"><div class="ph-tag">Section 1 · Identifying Successors</div><div class="ph-title">Nominated<br><em>Candidates</em></div></div>
-    <div class="card" style="margin-bottom:20px;">
-      <div class="card-title">Role Being Planned For</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
-        <div><div class="dc-label">Critical Role</div><div class="dc" id="f-s1_role"></div></div>
-        <div><div class="dc-label">Current Holder</div><div class="dc" id="f-s1_holder"></div></div>
-        <div><div class="dc-label">Why Critical</div><div class="dc" id="f-s1_why_critical"></div></div>
-      </div>
+    <div class="view-toggle">
+      <button class="vt-btn active" id="vt1-grouped" onclick="setView('p1','grouped')">Grouped by Participant</button>
+      <button class="vt-btn" id="vt1-combined" onclick="setView('p1','combined')">Combined List</button>
+      <span class="vt-label" id="vt1-count"></span>
     </div>
-    <div id="cands-display" class="grid2"></div>
-    <div class="card" style="margin-top:20px;">
-      <div class="card-title">Talent Pool Notes</div>
-      <div class="grid4">
-        <div><div class="dc-label">Direct Reports</div><div class="dc" id="f-s1_pool_direct"></div></div>
-        <div><div class="dc-label">Emerging Leaders</div><div class="dc" id="f-s1_pool_emerging"></div></div>
-        <div><div class="dc-label">Cross-Functional</div><div class="dc" id="f-s1_pool_cross"></div></div>
-        <div><div class="dc-label">Who Might Be Overlooked</div><div class="dc" id="f-s1_pool_overlook"></div></div>
-      </div>
-    </div>
+    <div id="p1-grouped"></div>
+    <div id="p1-combined" style="display:none;"></div>
   </div>
 
-  <!-- ROLE MAP -->
+  <!-- ROLE MAPS -->
   <div class="panel" id="p2">
-    <div class="ph"><div class="ph-tag">Section 2 · Understanding the Role</div><div class="ph-title">Role Map &amp;<br><em>Transition Plan</em></div></div>
-    <div class="card" style="margin-bottom:18px;">
-      <div class="card-title">The 4 Essential Questions</div>
-      <div id="s2-accs"></div>
-      <hr>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
-        <div><div class="dc-label">What Does Excellence Look Like?</div><div class="dc" id="f-s2_excellence"></div></div>
-        <div><div class="dc-label">Common Failure Modes</div><div class="dc" id="f-s2_failures"></div></div>
-      </div>
-      <hr>
-      <div id="s2-rels"></div>
+    <div class="ph"><div class="ph-tag">Section 2 · Understanding the Role</div><div class="ph-title">Role Maps &amp;<br><em>Transition Plans</em></div></div>
+    <div class="view-toggle">
+      <button class="vt-btn active" id="vt2-grouped" onclick="setView('p2','grouped')">Grouped by Participant</button>
+      <button class="vt-btn" id="vt2-combined" onclick="setView('p2','combined')">Combined View</button>
     </div>
-    <div class="card">
-      <div class="card-title">Phased Transition Plan</div>
-      <div class="grid3">
-        <div class="phase-box"><div class="phase-lbl">Phase 1 · Months 1–3</div><div class="phase-title">Shadow &amp; Learn</div><div class="dc" id="f-s2_phase1"></div></div>
-        <div class="phase-box"><div class="phase-lbl">Phase 2 · Months 3–6</div><div class="phase-title">Lead with Support</div><div class="dc" id="f-s2_phase2"></div></div>
-        <div class="phase-box"><div class="phase-lbl">Phase 3 · Month 6+</div><div class="phase-title">Full Handover</div><div class="dc" id="f-s2_phase3"></div></div>
-      </div>
-    </div>
+    <div id="p2-grouped"></div>
+    <div id="p2-combined" style="display:none;"></div>
   </div>
 
   <!-- PA & GWC -->
   <div class="panel" id="p3">
     <div class="ph"><div class="ph-tag">Section 3 · PA &amp; GWC Calibration</div><div class="ph-title">Readiness<br><em>Assessment Grid</em></div></div>
-    <div id="s3-display"></div>
+    <div class="view-toggle">
+      <button class="vt-btn active" id="vt3-grouped" onclick="setView('p3','grouped')">Grouped by Participant</button>
+      <button class="vt-btn" id="vt3-combined" onclick="setView('p3','combined')">All Candidates</button>
+    </div>
+    <div id="p3-grouped"></div>
+    <div id="p3-combined" style="display:none;"></div>
   </div>
 
   <!-- GROWTH MAPS -->
   <div class="panel" id="p4">
     <div class="ph"><div class="ph-tag">Section 4 · Growth Journey Maps</div><div class="ph-title">Development<br><em>Roadmaps</em></div></div>
-    <div id="s4-display"></div>
+    <div class="view-toggle">
+      <button class="vt-btn active" id="vt4-grouped" onclick="setView('p4','grouped')">Grouped by Participant</button>
+      <button class="vt-btn" id="vt4-combined" onclick="setView('p4','combined')">All Maps</button>
+    </div>
+    <div id="p4-grouped"></div>
+    <div id="p4-combined" style="display:none;"></div>
   </div>
 
   <!-- DEV ROCKS -->
   <div class="panel" id="p5">
     <div class="ph"><div class="ph-tag">Section 5 · Development Rock Planner</div><div class="ph-title">Dev Rocks<br><em>&amp; EOS Alignment</em></div></div>
-    <div id="s5-display" class="grid2"></div>
+    <div class="view-toggle">
+      <button class="vt-btn active" id="vt5-grouped" onclick="setView('p5','grouped')">Grouped by Participant</button>
+      <button class="vt-btn" id="vt5-combined" onclick="setView('p5','combined')">All Rocks</button>
+    </div>
+    <div id="p5-grouped"></div>
+    <div id="p5-combined" style="display:none;" class="grid2"></div>
   </div>
 
   <!-- DASHBOARD -->
   <div class="panel" id="p6">
-    <div class="ph"><div class="ph-tag">Section 6 · Dashboard &amp; Governance</div><div class="ph-title">Succession<br><em>Dashboard</em></div></div>
-    <div class="grid4" style="margin-bottom:20px;">
+    <div class="ph"><div class="ph-tag">Section 6 · Dashboard &amp; Governance</div><div class="ph-title">Master Succession<br><em>Dashboard</em></div></div>
+    <div class="bench-grid" style="margin-bottom:20px;">
       <div class="bc now"><div class="bc-num" id="d-bn">0</div><div class="bc-lbl">Ready Now</div></div>
       <div class="bc soon"><div class="bc-num" id="d-bs">0</div><div class="bc-lbl">Ready Soon</div></div>
       <div class="bc later"><div class="bc-num" id="d-bl">0</div><div class="bc-lbl">Ready Later</div></div>
       <div class="bc unr"><div class="bc-num" id="d-bu">0</div><div class="bc-lbl">Unready</div></div>
     </div>
-    <div class="card" style="margin-bottom:18px;overflow-x:auto;">
-      <div class="card-title">Live Succession Dashboard</div>
-      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+    <div class="card" style="overflow-x:auto;">
+      <div class="card-title">All Participants — Succession Entries</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;" id="dash-table">
         <thead><tr>
-          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Successor</th>
-          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Current Role</th>
-          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Target Role</th>
-          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Tier</th>
-          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Rock</th>
-          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Mentor</th>
-          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Next Milestone</th>
-          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Date</th>
-          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Blockers</th>
+          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">From</th>
+          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Successor</th>
+          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Current Role</th>
+          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Target Role</th>
+          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Tier</th>
+          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Rock</th>
+          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Mentor</th>
+          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Next Milestone</th>
+          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Date</th>
+          <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Blockers</th>
         </tr></thead>
         <tbody id="dash-tbody"></tbody>
       </table>
     </div>
-    <div class="grid2">
-      <div class="card">
-        <div class="card-title">Governance Cadence</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div><div class="dc-label">Weekly 1:1 Owner</div><div class="dc" id="f-gov_weekly"></div></div>
-          <div><div class="dc-label">First Quarterly Review</div><div class="dc" id="f-gov_quarterly"></div></div>
-          <div><div class="dc-label">Annual Workshop</div><div class="dc" id="f-gov_annual"></div></div>
-          <div><div class="dc-label">Dashboard Owner</div><div class="dc" id="f-gov_escalation"></div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Leader Commitments — Next 7 Days</div>
-        <div class="dc" id="f-commitment" style="min-height:120px;"></div>
-      </div>
+    <div class="card">
+      <div class="card-title">Leader Commitments — Next 7 Days</div>
+      <div id="commitments-list"></div>
     </div>
   </div>
+
 </div>
 
 <div id="fsBtn" onclick="toggleFS()">⛶ Fullscreen</div>
 
 <script>
-const SUPA_URL = 'https://xbzmkilksrcozcnbcwlj.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhiem1raWxrc3Jjb3pjbmJjd2xqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MDcwMTMsImV4cCI6MjA5MDA4MzAxM30.25yGZWjWrO175oJzfr0oKkS6W5w-UuSACTWcf21uy-0';
-const HEADERS = { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY };
+const SUPA_URL='https://xbzmkilksrcozcnbcwlj.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhiem1raWxrc3Jjb3pjbmJjd2xqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MDcwMTMsImV4cCI6MjA5MDA4MzAxM30.25yGZWjWrO175oJzfr0oKkS6W5w-UuSACTWcf21uy-0';
+const H={'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY};
 
-async function dbGetAll() {
-  const r = await fetch(`${SUPA_URL}/rest/v1/workshop_data?select=*`, { headers: HEADERS });
-  return r.ok ? await r.json() : [];
+// VIEW STATE
+const viewState={p1:'grouped',p2:'grouped',p3:'grouped',p4:'grouped',p5:'grouped'};
+
+function setView(panel,view){
+  viewState[panel]=view;
+  const g=document.getElementById(panel+'-grouped'), c=document.getElementById(panel+'-combined');
+  if(g)g.style.display=view==='grouped'?'block':'none';
+  if(c)c.style.display=view==='combined'?((panel==='p5')?'grid':'block'):'none';
+  document.getElementById('vt'+panel.replace('p','')+'-grouped').classList.toggle('active',view==='grouped');
+  document.getElementById('vt'+panel.replace('p','')+'-combined').classList.toggle('active',view==='combined');
 }
-
-let lastSeen = {};
 
 // CLOCK
-setInterval(() => {
-  const n = new Date();
-  document.getElementById('clock').textContent =
-    String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
-}, 1000);
+setInterval(()=>{const n=new Date();document.getElementById('clock').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');},1000);
 
-// NAV
-function showPanel(id, el) {
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if (el) el.classList.add('active');
-}
-
-function toggleFS() {
-  if (!document.fullscreenElement) { document.documentElement.requestFullscreen(); document.getElementById('fsBtn').textContent='✕ Exit Fullscreen'; }
-  else { document.exitFullscreen(); document.getElementById('fsBtn').textContent='⛶ Fullscreen'; }
-}
+function showPanel(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');if(el)el.classList.add('active');}
+function toggleFS(){if(!document.fullscreenElement){document.documentElement.requestFullscreen();document.getElementById('fsBtn').textContent='✕ Exit';}else{document.exitFullscreen();document.getElementById('fsBtn').textContent='⛶ Fullscreen';}}
 
 // HELPERS
-function v(rows, key) { const r=rows.find(x=>x.key===key); return r?r.value:''; }
-function setDC(id, val, isNew) {
-  const el=document.getElementById(id); if(!el) return;
-  el.textContent = val||'—';
-  el.className = 'dc' + (val?'':' empty');
-  if (isNew && val) { el.classList.add('new-flash'); setTimeout(()=>el.classList.remove('new-flash'),2200); }
-}
-function tierBadge(tier) {
-  if (!tier) return '<span class="tier-badge t-empty">—</span>';
-  const m={'Ready Now':'t-now','Ready Soon':'t-soon','Ready Later':'t-later','Unready':'t-unready'};
-  return `<span class="tier-badge ${m[tier]||'t-empty'}">${tier}</span>`;
-}
-function rPill(val) {
-  if (!val) return '<span class="rp-pill rpe">?</span>';
-  if (val==='plus')  return '<span class="rp-pill rpp">+</span>';
-  if (val==='mixed') return '<span class="rp-pill rpm">±</span>';
-  if (val==='minus') return '<span class="rp-pill rpn">–</span>';
-  return '<span class="rp-pill rpe">?</span>';
-}
-function rockTag(eos) {
-  if (!eos) return '';
-  if (eos.includes('Succession')) return `<span class="rt rt-s">${eos}</span>`;
-  if (eos.includes('Cash'))       return `<span class="rt rt-c">${eos}</span>`;
-  if (eos.includes('Prod'))       return `<span class="rt rt-p">${eos}</span>`;
-  return `<span class="rt rt-j">${eos}</span>`;
-}
-function isNew(key, rows) {
-  const r = rows.find(x=>x.key===key);
-  if (!r) return false;
-  const prev = lastSeen[key];
-  return prev !== r.value;
-}
+function V(rows,prefix,key){const r=rows.find(x=>x.key===prefix+key);return r?r.value:'';}
+function tierBadge(t){if(!t)return '<span class="tier-badge t-empty">—</span>';const m={'Ready Now':'t-now','Ready Soon':'t-soon','Ready Later':'t-later','Unready':'t-unready'};return `<span class="tier-badge ${m[t]||'t-empty'}">${t}</span>`;}
+function rPill(v){if(!v)return '<span class="rp-pill rpe">?</span>';if(v==='plus')return '<span class="rp-pill rpp">+</span>';if(v==='mixed')return '<span class="rp-pill rpm">±</span>';if(v==='minus')return '<span class="rp-pill rpn">–</span>';return '<span class="rp-pill rpe">?</span>';}
+function rockTag(e){if(!e)return '';if(e.includes('Succession'))return `<span class="rt rt-s">${e}</span>`;if(e.includes('Cash'))return `<span class="rt rt-c">${e}</span>`;if(e.includes('Prod'))return `<span class="rt rt-p">${e}</span>`;return `<span class="rt rt-j">${e}</span>`;}
+function dc(val){return `<div class="dc ${val?'':'empty'}">${val||'—'}</div>`;}
 
-// RENDER
-async function render() {
+async function dbGetAll(){const r=await fetch(`${SUPA_URL}/rest/v1/workshop_data?select=*`,{headers:H});return r.ok?await r.json():[];}
+
+async function render(){
   document.getElementById('syncPill').className='sync-pill syncing';
   document.getElementById('syncPill').textContent='● Syncing…';
 
-  const rows = await dbGetAll();
+  const rows=await dbGetAll();
+  const now=Date.now();
 
-  // Presence
-  const now = Date.now();
-  const users = rows
-    .filter(r=>r.key.startsWith('presence:'))
-    .map(r=>{ try{return JSON.parse(r.value);}catch(e){return null;} })
-    .filter(u=>u&&(now-u.ts)<90000);
+  // PRESENCE
+  const users=rows.filter(r=>r.key.startsWith('presence:')).map(r=>{try{return JSON.parse(r.value);}catch(e){return null;}}).filter(u=>u&&(now-u.ts)<90000);
+  document.getElementById('onlineCount').textContent=users.length+' online';
+  const avDiv=document.getElementById('chAvatars');avDiv.innerHTML='';
+  users.slice(0,8).forEach(u=>{const d=document.createElement('div');d.className='av';d.title=u.name+' · '+u.bu;d.textContent=u.initials||'??';avDiv.appendChild(d);});
+  document.getElementById('ov-part').textContent=users.length;
 
-  document.getElementById('onlineCount').textContent = users.length + ' online';
-  const avDiv = document.getElementById('chAvatars');
-  avDiv.innerHTML = '';
-  users.slice(0,8).forEach(u=>{
-    const d=document.createElement('div'); d.className='av';
-    d.title=u.name+' · '+u.role; d.textContent=u.initials||'??';
-    avDiv.appendChild(d);
-  });
-  document.getElementById('ov-part').textContent = users.length;
-
-  const plist = document.getElementById('ov-plist');
-  plist.innerHTML = '';
-  if (!users.length) {
-    plist.innerHTML='<div style="color:var(--dim);font-style:italic;font-size:13px;padding:12px 0;">No participants online yet.</div>';
-  } else {
+  // participants list
+  const plist=document.getElementById('ov-plist');plist.innerHTML='';
+  if(!users.length){plist.innerHTML='<div class="empty-msg">No participants online yet.</div>';}
+  else{
     users.forEach(u=>{
-      const row=document.createElement('div');
-      row.style.cssText='display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(201,168,76,.06);';
+      const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(201,168,76,.06);';
       row.innerHTML=`<div style="width:32px;height:32px;border-radius:50%;background:var(--bg-panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;">${u.initials||'??'}</div>
         <div><div style="font-size:13px;font-weight:600;">${u.name}</div><div style="font-size:11px;color:var(--muted);">${u.role} · ${u.bu}</div></div>
-        <div style="margin-left:auto;width:7px;height:7px;border-radius:50%;background:var(--green);"></div>`;
+        <div style="margin-left:auto;display:flex;align-items:center;gap:5px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--green);"></div>
+          <span style="font-size:10px;color:var(--dim);">Online</span>
+        </div>`;
       plist.appendChild(row);
     });
   }
 
-  // Simple fields
-  const simpleFields = ['session_date','session_facilitator','session_location','session_dashboard_owner',
-    's1_role','s1_holder','s1_why_critical','s1_pool_direct','s1_pool_emerging','s1_pool_cross','s1_pool_overlook',
-    's2_excellence','s2_failures','s2_phase1','s2_phase2','s2_phase3',
-    'gov_weekly','gov_quarterly','gov_annual','gov_escalation','commitment'];
-  simpleFields.forEach(key => {
-    const val = v(rows, key);
-    const n = isNew(key, rows);
-    const el = document.getElementById('f-'+key) || document.getElementById('ov-'+key.replace('session_','').replace('dashboard_owner','own').replace('facilitator','fac').replace('location','loc').replace('date','date'));
-    if (el) { setDC(el.id, val, n); }
-    lastSeen[key] = val;
+  // build participant data map
+  // key format: p:NAME_SLUG:field_key
+  const participants={};
+  rows.forEach(row=>{
+    if(row.key.startsWith('presence:'))return;
+    const m=row.key.match(/^p:([^:]+):(.+)$/);
+    if(!m)return;
+    const slug=m[1], field=m[2];
+    if(!participants[slug])participants[slug]={slug,rows:[]};
+    participants[slug].rows.push({field,value:row.value,updated_by:row.updated_by});
   });
 
-  setDC('ov-date', v(rows,'session_date'));
-  setDC('ov-fac',  v(rows,'session_facilitator'));
-  setDC('ov-loc',  v(rows,'session_location'));
-  setDC('ov-own',  v(rows,'session_dashboard_owner'));
-  ['s1_role','s1_holder','s1_why_critical','s1_pool_direct','s1_pool_emerging','s1_pool_cross','s1_pool_overlook',
-   's2_excellence','s2_failures','s2_phase1','s2_phase2','s2_phase3',
-   'gov_weekly','gov_quarterly','gov_annual','gov_escalation','commitment'].forEach(k=>{
-    const n=isNew(k,rows); setDC('f-'+k,v(rows,k),n); lastSeen[k]=v(rows,k);
+  // match slugs to user info
+  Object.keys(participants).forEach(slug=>{
+    const user=users.find(u=>u.name.replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_]/g,'')===slug);
+    if(user)participants[slug].user=user;
+    else participants[slug].user={name:slug.replace(/_/g,' '),role:'',bu:'',initials:slug.slice(0,2).toUpperCase()};
   });
 
-  // S2 accs & rels
-  const accsDiv=document.getElementById('s2-accs');
-  accsDiv.innerHTML='<div class="dc-label" style="margin-bottom:8px;">Top Accountabilities</div>';
-  for(let i=1;i<=10;i++){
-    const val=v(rows,'s2_acc'+i); if(!val&&i>1) break; if(!val) continue;
-    const row=document.createElement('div'); row.style.cssText='display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;';
-    row.innerHTML=`<span style="font-family:'Cinzel',serif;font-size:13px;color:var(--gold-dim);min-width:20px;">${i}.</span><div class="dc" style="flex:1;">${val}</div>`;
-    accsDiv.appendChild(row);
-  }
-  const relsDiv=document.getElementById('s2-rels');
-  let relsHtml='';
-  for(let i=1;i<=10;i++){const val=v(rows,'s2_rel'+i);if(!val&&i>1)break;if(!val)continue;relsHtml+=`<span class="cand-tag" style="font-size:12px;padding:4px 10px;">${val}</span>`;}
-  relsDiv.innerHTML='<div class="dc-label" style="margin-bottom:8px;">Key Relationships</div><div style="display:flex;flex-wrap:wrap;gap:8px;">'+relsHtml+'</div>';
+  const partList=Object.values(participants);
 
-  // S1 candidates
-  let candCount=0;
-  const candDiv=document.getElementById('cands-display');
-  for(let i=1;i<=20;i++){
-    const name=v(rows,'s1_cand'+i+'_name'); if(!name&&i>1)break; if(!name)continue;
-    candCount++;
-    const role=v(rows,'s1_cand'+i+'_role'), target=v(rows,'s1_cand'+i+'_target'), by=v(rows,'s1_cand'+i+'_by'), why=v(rows,'s1_cand'+i+'_why');
-    const n=isNew('s1_cand'+i+'_name',rows)||isNew('s1_cand'+i+'_why',rows);
-    let card=document.getElementById('cc'+i);
-    if(!card){card=document.createElement('div');card.className='cand-card slide-in';card.id='cc'+i;candDiv.appendChild(card);}
-    card.innerHTML=`<div class="cand-num">${String(i).padStart(2,'0')}</div>
-      <div class="cand-name">${name}</div>
-      <div style="margin-bottom:6px;">${role?`<span class="cand-tag">${role}</span>`:''} ${target?`<span class="cand-tag">→ ${target}</span>`:''} ${by?`<span class="cand-tag">by ${by}</span>`:''}</div>
-      ${why?`<div class="cand-why">${why}</div>`:''}`;
-    if(n){card.classList.add('new-flash');setTimeout(()=>card.classList.remove('new-flash'),2200);}
-    ['s1_cand'+i+'_name','s1_cand'+i+'_why'].forEach(k=>lastSeen[k]=v(rows,k));
-  }
-  document.getElementById('ov-cands').textContent=candCount;
-
-  // S3
-  const s3Div=document.getElementById('s3-display');
-  const cvNames=['Pagsalig','Hini-usang Pagkugi','Pagpalambo'];
-  const gwcNames=['Gets It','Wants It','Capacity'];
-  const compNames=['Job Knowledge','Decision Making','Communication','Planning & Org','Leadership','Customer Focus'];
+  // PROGRESS ROWS
+  const progDiv=document.getElementById('progress-rows');progDiv.innerHTML='';
+  let totalCands=0,totalRocks=0;
   const bench={'Ready Now':0,'Ready Soon':0,'Ready Later':0,'Unready':0};
 
-  for(let i=1;i<=20;i++){
-    const name=v(rows,'s3_c'+i+'_name'); if(!name&&i>1)break; if(!name)continue;
-    const target=v(rows,'s3_c'+i+'_target'), devfocus=v(rows,'s3_c'+i+'_devfocus');
-    const tier=v(rows,'tier:s3_c'+i+'_tier');
-    if(tier&&bench[tier]!==undefined)bench[tier]++;
+  partList.forEach(p=>{
+    const prows=p.rows;
+    const getV=k=>{ const r=prows.find(x=>x.field===k); return r?r.value:''; };
+    const filled=prows.filter(r=>!r.field.startsWith('rating:')&&!r.field.startsWith('tier:')&&r.value&&r.value.trim()).length;
+    const total=Math.max(prows.length,8);
+    const pct=Math.round(filled/total*100);
 
-    let card=document.getElementById('s3card'+i);
-    if(!card){card=document.createElement('div');card.className='card slide-in';card.id='s3card'+i;card.style.marginBottom='18px';s3Div.appendChild(card);}
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(201,168,76,.06);';
+    row.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:var(--bg-panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;">${p.user.initials}</div>
+      <div style="flex:1;"><div style="font-size:13px;font-weight:600;">${p.user.name}</div><div style="font-size:10px;color:var(--muted);">${p.user.bu}</div></div>
+      <div style="flex:2;"><div style="height:4px;background:var(--bg-panel);border-radius:2px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:var(--gold-dim);border-radius:2px;transition:width .4s;"></div></div></div>
+      <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--gold-dim);min-width:36px;text-align:right;">${pct}%</div>`;
+    progDiv.appendChild(row);
 
-    const cvHtml=cvNames.map((_,j)=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(201,168,76,.06);">
-      <div style="flex:1;font-size:12px;">${cvNames[j]}</div>${rPill(v(rows,'rating:s3_c'+i+'_cv'+j))}</div>`).join('');
-    const gwcHtml=gwcNames.map((_,j)=>`<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:10px;text-align:center;">
-      <div style="font-family:'Cinzel',serif;font-size:10px;color:var(--gold);margin-bottom:6px;">${gwcNames[j]}</div>${rPill(v(rows,'rating:s3_c'+i+'_gwc'+j))}</div>`).join('');
-    const compHtml=compNames.map((_,j)=>`<div style="display:flex;align-items:center;gap:8px;background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:8px 10px;">
-      <span style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold-dim);min-width:14px;">0${j+1}</span>
-      <span style="flex:1;font-size:11px;">${compNames[j]}</span>${rPill(v(rows,'rating:s3_c'+i+'_comp'+j))}</div>`).join('');
+    // count candidates
+    for(let i=1;i<=20;i++){if(getV('s1_cand'+i+'_name'))totalCands++;else if(i>1)break;}
+    // count rocks
+    for(let i=1;i<=20;i++){if(getV('s5_r'+i+'_successor'))totalRocks++;else if(i>1)break;}
+    // count bench
+    for(let i=1;i<=20;i++){
+      const t=prows.find(r=>r.field==='tier:s3_c'+i+'_tier');
+      if(t&&bench[t.value]!==undefined)bench[t.value]++;
+    }
+  });
 
-    card.innerHTML=`<div class="card-title">${name}${target?' → '+target:''}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 2fr;gap:14px;align-items:start;">
-        <div><div class="dc-label" style="margin-bottom:8px;">Core Values</div>${cvHtml}</div>
-        <div><div class="dc-label" style="margin-bottom:8px;">GWC</div><div style="display:flex;flex-direction:column;gap:6px;">${gwcHtml}</div></div>
-        <div><div class="dc-label" style="margin-bottom:8px;">Competencies</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">${compHtml}</div></div>
-      </div>
-      <div style="margin-top:14px;display:flex;align-items:center;gap:14px;">
-        <div><div class="dc-label" style="margin-bottom:4px;">Consensus Tier</div>${tierBadge(tier)}</div>
-        ${devfocus?`<div style="flex:1;"><div class="dc-label" style="margin-bottom:4px;">Development Focus</div><div class="dc" style="font-size:12px;">${devfocus}</div></div>`:''}
-      </div>`;
-  }
-
+  document.getElementById('ov-cands').textContent=totalCands;
+  document.getElementById('ov-rocks').textContent=totalRocks;
   ['ov-bn','d-bn'].forEach(id=>document.getElementById(id).textContent=bench['Ready Now']);
   ['ov-bs','d-bs'].forEach(id=>document.getElementById(id).textContent=bench['Ready Soon']);
   ['ov-bl','d-bl'].forEach(id=>document.getElementById(id).textContent=bench['Ready Later']);
   ['ov-bu','d-bu'].forEach(id=>document.getElementById(id).textContent=bench['Unready']);
 
-  // S4
-  const s4Div=document.getElementById('s4-display');
-  for(let i=1;i<=20;i++){
-    const name=v(rows,'s4_m'+i+'_name'); if(!name&&i>1)break; if(!name)continue;
-    const tierV=v(rows,'s4_m'+i+'_tier'), comp=v(rows,'s4_m'+i+'_comp'), stretch=v(rows,'s4_m'+i+'_stretch');
-    const ms1=v(rows,'s4_m'+i+'_ms1'), ms2=v(rows,'s4_m'+i+'_ms2'), ms3=v(rows,'s4_m'+i+'_ms3'), ms4=v(rows,'s4_m'+i+'_ms4');
-    const support=v(rows,'s4_m'+i+'_support'), readiness=v(rows,'s4_m'+i+'_readiness');
-    let card=document.getElementById('s4card'+i);
-    if(!card){card=document.createElement('div');card.className='card slide-in';card.id='s4card'+i;card.style.marginBottom='18px';s4Div.appendChild(card);}
-    card.innerHTML=`<div class="card-title" style="margin-bottom:14px;">${name} &nbsp; ${tierBadge(tierV)}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-        <div><div class="dc-label">Competency Focus</div><div class="dc">${comp||'—'}</div></div>
-        <div><div class="dc-label">Stretch Assignment</div><div class="dc">${stretch||'—'}</div></div>
-      </div>
-      <div class="dc-label" style="margin-bottom:8px;">Milestones</div>
-      <div class="ms-track" style="margin-bottom:14px;">
-        <div class="ms-band"><div class="ms-lbl">0–3 Months</div><div style="font-size:12px;">${ms1||'—'}</div></div>
-        <div class="ms-band"><div class="ms-lbl">3–6 Months</div><div style="font-size:12px;">${ms2||'—'}</div></div>
-        <div class="ms-band"><div class="ms-lbl">6–12 Months</div><div style="font-size:12px;">${ms3||'—'}</div></div>
-        <div class="ms-band"><div class="ms-lbl">12–18 Months</div><div style="font-size:12px;">${ms4||'—'}</div></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-        <div><div class="dc-label">Support Needed</div><div class="dc" style="font-size:12px;white-space:pre-line;">${support||'—'}</div></div>
-        <div><div class="dc-label">Readiness Milestone</div><div class="dc" style="font-size:12px;">${readiness||'—'}</div></div>
-      </div>`;
-  }
+  // total field pct
+  const allFields=rows.filter(r=>!r.key.startsWith('presence:')&&!r.key.startsWith('p:')&&!r.key.includes('rating:')&&!r.key.includes('tier:'));
+  const allPart=rows.filter(r=>r.key.startsWith('p:')&&!r.key.includes(':rating:')&&!r.key.includes(':tier:')&&r.value&&r.value.trim());
+  document.getElementById('ov-pct').textContent=Math.min(Math.round(allPart.length/Math.max(partList.length*10,1)),100)+'%';
 
-  // S5
-  const s5Div=document.getElementById('s5-display');
-  let rockCount=0;
-  for(let i=1;i<=30;i++){
-    const succ=v(rows,'s5_r'+i+'_successor'); if(!succ&&i>1)break; if(!succ)continue;
-    rockCount++;
-    const eos=v(rows,'s5_r'+i+'_eos'), stmt=v(rows,'s5_r'+i+'_statement'), kpi=v(rows,'s5_r'+i+'_kpi'), date=v(rows,'s5_r'+i+'_date');
-    let card=document.getElementById('s5card'+i);
-    if(!card){card=document.createElement('div');card.className='card slide-in';card.id='s5card'+i;s5Div.appendChild(card);}
-    card.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--gold);">${succ}</div>${rockTag(eos)}</div>
-      <div class="dc" style="font-size:13px;margin-bottom:10px;">${stmt||'—'}</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        ${kpi?`<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:6px 10px;font-size:11px;"><span style="color:var(--muted);">KPI:</span> ${kpi}</div>`:''}
-        ${date?`<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:6px 10px;font-size:11px;"><span style="color:var(--muted);">Due:</span> ${date}</div>`:''}
-      </div>`;
-  }
-  document.getElementById('ov-rocks').textContent=rockCount;
+  // ── SECTION 1: CANDIDATES ──
+  const p1g=document.getElementById('p1-grouped'); p1g.innerHTML='';
+  const p1c=document.getElementById('p1-combined'); p1c.innerHTML='';
+  let combinedCands=[];
 
-  // S6 table
+  partList.forEach(p=>{
+    const getV=k=>{const r=p.rows.find(x=>x.field===k);return r?r.value:'';};
+    const block=document.createElement('div'); block.className='part-block';
+    block.innerHTML=`<div class="part-header">
+      <div class="part-av">${p.user.initials}</div>
+      <div><div class="part-name">${p.user.name}</div><div class="part-role">${p.user.role}</div></div>
+      <span class="part-sbu-tag">${p.user.bu}</span>
+    </div>
+    <div class="grid2" style="margin-bottom:14px;">
+      <div><div class="dc-label">Critical Role</div>${dc(getV('s1_role'))}</div>
+      <div><div class="dc-label">Current Holder</div>${dc(getV('s1_holder'))}</div>
+    </div>
+    <div style="margin-bottom:4px;font-family:'Cinzel',serif;font-size:10px;color:var(--gold-dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;">Nominated Candidates</div>
+    <div id="p1g-cands-${p.slug}"></div>`;
+    p1g.appendChild(block);
+
+    const candContainer=document.getElementById('p1g-cands-'+p.slug);
+    for(let i=1;i<=20;i++){
+      const name=getV('s1_cand'+i+'_name'); if(!name&&i>1)break; if(!name)continue;
+      const role=getV('s1_cand'+i+'_role'), target=getV('s1_cand'+i+'_target'), sbu=getV('s1_cand'+i+'_sbu'), why=getV('s1_cand'+i+'_why');
+      const card=document.createElement('div'); card.className='cand-card';
+      card.innerHTML=`<div class="cand-num">${String(i).padStart(2,'0')}</div>
+        <div class="cand-name">${name}</div>
+        <div style="margin-bottom:6px;">${role?`<span class="cand-tag">${role}</span>`:''} ${target?`<span class="cand-tag">→ ${target}</span>`:''} ${sbu?`<span class="cand-tag">${sbu}</span>`:''}</div>
+        ${why?`<div class="cand-why">${why}</div>`:''}`;
+      candContainer.appendChild(card);
+      combinedCands.push({name,role,target,sbu,why,nominatedBy:p.user.name,nominatedBySbu:p.user.bu});
+    }
+  });
+
+  if(!partList.length) p1g.innerHTML='<div class="empty-msg">No participants online yet.</div>';
+
+  // combined candidates
+  if(combinedCands.length){
+    combinedCands.forEach((c,i)=>{
+      const card=document.createElement('div'); card.className='cand-card';
+      card.innerHTML=`<div class="cand-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="cand-name">${c.name}</div>
+        <div style="margin-bottom:6px;">
+          ${c.role?`<span class="cand-tag">${c.role}</span>`:''}
+          ${c.target?`<span class="cand-tag">→ ${c.target}</span>`:''}
+          ${c.sbu?`<span class="cand-tag">${c.sbu}</span>`:''}
+          <span class="cand-tag" style="background:rgba(201,168,76,.15);color:var(--gold-dim);">by ${c.nominatedBy}</span>
+        </div>
+        ${c.why?`<div class="cand-why">${c.why}</div>`:''}`;
+      p1c.appendChild(card);
+    });
+    const vt1=document.getElementById('vt1-count');if(vt1)vt1.textContent=combinedCands.length+' total candidates';
+  } else { p1c.innerHTML='<div class="empty-msg">No candidates nominated yet.</div>'; }
+
+  // ── SECTION 2: ROLE MAPS ──
+  const p2g=document.getElementById('p2-grouped'); p2g.innerHTML='';
+  const p2c=document.getElementById('p2-combined'); p2c.innerHTML='';
+
+  partList.forEach(p=>{
+    const getV=k=>{const r=p.rows.find(x=>x.field===k);return r?r.value:'';};
+    const block=document.createElement('div'); block.className='part-block';
+    block.innerHTML=`<div class="part-header">
+      <div class="part-av">${p.user.initials}</div>
+      <div><div class="part-name">${p.user.name}</div><div class="part-role">${p.user.role}</div></div>
+      <span class="part-sbu-tag">${p.user.bu}</span>
+    </div>
+    <div class="grid2" style="margin-bottom:12px;">
+      <div><div class="dc-label">Excellence Indicators</div>${dc(getV('s2_excellence'))}</div>
+      <div><div class="dc-label">Common Failure Modes</div>${dc(getV('s2_failures'))}</div>
+    </div>
+    <div class="grid3">
+      <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:12px;"><div style="font-size:10px;font-weight:600;color:var(--gold);margin-bottom:6px;">Phase 1 · Shadow &amp; Learn</div><div style="font-size:12px;color:var(--text);">${getV('s2_phase1')||'—'}</div></div>
+      <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:12px;"><div style="font-size:10px;font-weight:600;color:var(--gold);margin-bottom:6px;">Phase 2 · Lead with Support</div><div style="font-size:12px;color:var(--text);">${getV('s2_phase2')||'—'}</div></div>
+      <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:12px;"><div style="font-size:10px;font-weight:600;color:var(--gold);margin-bottom:6px;">Phase 3 · Full Handover</div><div style="font-size:12px;color:var(--text);">${getV('s2_phase3')||'—'}</div></div>
+    </div>`;
+    p2g.appendChild(block);
+  });
+  if(!partList.length) p2g.innerHTML='<div class="empty-msg">No submissions yet.</div>';
+
+  // ── SECTION 3: PA & GWC ──
+  const p3g=document.getElementById('p3-grouped'); p3g.innerHTML='';
+  const p3c=document.getElementById('p3-combined'); p3c.innerHTML='';
+  const cvNames=['Pagsalig','Hini-usang Pagkugi','Pagpalambo'];
+  const gwcNames=['Gets It','Wants It','Capacity'];
+  const compNames=['Job Knowledge','Decision Making','Communication','Planning & Org','Leadership','Customer Focus'];
+  let allRatings=[];
+
+  partList.forEach(p=>{
+    const getV=k=>{const r=p.rows.find(x=>x.field===k);return r?r.value:'';};
+    const block=document.createElement('div'); block.className='part-block';
+    block.innerHTML=`<div class="part-header">
+      <div class="part-av">${p.user.initials}</div>
+      <div><div class="part-name">${p.user.name}</div><div class="part-role">${p.user.role}</div></div>
+      <span class="part-sbu-tag">${p.user.bu}</span>
+    </div>
+    <div id="p3g-cands-${p.slug}"></div>`;
+    p3g.appendChild(block);
+
+    const cont=document.getElementById('p3g-cands-'+p.slug);
+    for(let i=1;i<=20;i++){
+      const name=getV('s3_c'+i+'_name'); if(!name&&i>1)break; if(!name)continue;
+      const target=getV('s3_c'+i+'_target'), devfocus=getV('s3_c'+i+'_devfocus');
+      const tier=getV('tier:s3_c'+i+'_tier');
+      const cvHtml=cvNames.map((_,j)=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(201,168,76,.06);"><div style="flex:1;font-size:12px;">${cvNames[j]}</div>${rPill(getV('rating:s3_c'+i+'_cv'+j))}</div>`).join('');
+      const gwcHtml=gwcNames.map((_,j)=>`<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:8px;text-align:center;"><div style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold);margin-bottom:4px;">${gwcNames[j]}</div>${rPill(getV('rating:s3_c'+i+'_gwc'+j))}</div>`).join('');
+      const compHtml=compNames.map((_,j)=>`<div style="display:flex;align-items:center;gap:6px;background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:7px 9px;"><span style="font-size:9px;color:var(--gold-dim);min-width:14px;font-family:'Cinzel',serif;">0${j+1}</span><span style="flex:1;font-size:10px;">${compNames[j]}</span>${rPill(getV('rating:s3_c'+i+'_comp'+j))}</div>`).join('');
+      const card=document.createElement('div'); card.className='card'; card.style.marginBottom='12px';
+      card.innerHTML=`<div class="card-title">${name}${target?' → '+target:''}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 2fr;gap:12px;align-items:start;">
+          <div><div class="dc-label" style="margin-bottom:6px;">Core Values</div>${cvHtml}</div>
+          <div><div class="dc-label" style="margin-bottom:6px;">GWC</div><div style="display:flex;flex-direction:column;gap:5px;">${gwcHtml}</div></div>
+          <div><div class="dc-label" style="margin-bottom:6px;">Competencies</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">${compHtml}</div></div>
+        </div>
+        <div style="margin-top:12px;display:flex;align-items:center;gap:14px;">
+          <div><div class="dc-label" style="margin-bottom:4px;">Consensus Tier</div>${tierBadge(tier)}</div>
+          ${devfocus?`<div style="flex:1;"><div class="dc-label" style="margin-bottom:4px;">Development Focus</div><div class="dc" style="font-size:12px;">${devfocus}</div></div>`:''}
+        </div>`;
+      cont.appendChild(card);
+      allRatings.push({name,target,nominatedBy:p.user.name,tier,devfocus,cvRows:cvNames.map((_,j)=>getV('rating:s3_c'+i+'_cv'+j)),gwcRows:gwcNames.map((_,j)=>getV('rating:s3_c'+i+'_gwc'+j)),compRows:compNames.map((_,j)=>getV('rating:s3_c'+i+'_comp'+j))});
+    }
+  });
+
+  allRatings.forEach((c,idx)=>{
+    const cvHtml=cvNames.map((n,j)=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(201,168,76,.06);"><div style="flex:1;font-size:12px;">${n}</div>${rPill(c.cvRows[j])}</div>`).join('');
+    const gwcHtml=gwcNames.map((n,j)=>`<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:8px;text-align:center;"><div style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold);margin-bottom:4px;">${n}</div>${rPill(c.gwcRows[j])}</div>`).join('');
+    const compHtml=compNames.map((n,j)=>`<div style="display:flex;align-items:center;gap:6px;background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:7px 9px;"><span style="font-size:9px;color:var(--gold-dim);min-width:14px;font-family:'Cinzel',serif;">0${j+1}</span><span style="flex:1;font-size:10px;">${n}</span>${rPill(c.compRows[j])}</div>`).join('');
+    const card=document.createElement('div'); card.className='card'; card.style.marginBottom='14px';
+    card.innerHTML=`<div class="card-title">${c.name}${c.target?' → '+c.target:''} <span style="font-size:10px;color:var(--gold-dim);font-family:'DM Sans',sans-serif;font-weight:400;">· by ${c.nominatedBy}</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 2fr;gap:12px;align-items:start;">
+        <div><div class="dc-label" style="margin-bottom:6px;">Core Values</div>${cvHtml}</div>
+        <div><div class="dc-label" style="margin-bottom:6px;">GWC</div><div style="display:flex;flex-direction:column;gap:5px;">${gwcHtml}</div></div>
+        <div><div class="dc-label" style="margin-bottom:6px;">Competencies</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">${compHtml}</div></div>
+      </div>
+      <div style="margin-top:12px;display:flex;align-items:center;gap:14px;">
+        <div><div class="dc-label" style="margin-bottom:4px;">Consensus Tier</div>${tierBadge(c.tier)}</div>
+        ${c.devfocus?`<div style="flex:1;"><div class="dc-label" style="margin-bottom:4px;">Development Focus</div><div class="dc" style="font-size:12px;">${c.devfocus}</div></div>`:''}
+      </div>`;
+    p3c.appendChild(card);
+  });
+  if(!partList.length){p3g.innerHTML='<div class="empty-msg">No submissions yet.</div>';}
+  if(!allRatings.length){p3c.innerHTML='<div class="empty-msg">No ratings submitted yet.</div>';}
+
+  // ── SECTION 4: GROWTH MAPS ──
+  const p4g=document.getElementById('p4-grouped'); p4g.innerHTML='';
+  const p4c=document.getElementById('p4-combined'); p4c.innerHTML='';
+
+  partList.forEach(p=>{
+    const getV=k=>{const r=p.rows.find(x=>x.field===k);return r?r.value:'';};
+    const block=document.createElement('div'); block.className='part-block';
+    block.innerHTML=`<div class="part-header"><div class="part-av">${p.user.initials}</div><div><div class="part-name">${p.user.name}</div><div class="part-role">${p.user.role}</div></div><span class="part-sbu-tag">${p.user.bu}</span></div><div id="p4g-maps-${p.slug}"></div>`;
+    p4g.appendChild(block);
+    const cont=document.getElementById('p4g-maps-'+p.slug);
+    for(let i=1;i<=20;i++){
+      const name=getV('s4_m'+i+'_name'); if(!name&&i>1)break; if(!name)continue;
+      const tierV=getV('s4_m'+i+'_tier'), comp=getV('s4_m'+i+'_comp'), stretch=getV('s4_m'+i+'_stretch');
+      const ms1=getV('s4_m'+i+'_ms1'), ms2=getV('s4_m'+i+'_ms2'), ms3=getV('s4_m'+i+'_ms3'), ms4=getV('s4_m'+i+'_ms4');
+      const support=getV('s4_m'+i+'_support'), readiness=getV('s4_m'+i+'_readiness');
+      const card=document.createElement('div'); card.className='card'; card.style.marginBottom='12px';
+      card.innerHTML=`<div class="card-title">${name} &nbsp; ${tierBadge(tierV)}</div>
+        <div class="grid2" style="margin-bottom:12px;">
+          <div><div class="dc-label">Competency Focus</div>${dc(comp)}</div>
+          <div><div class="dc-label">Stretch Assignment</div>${dc(stretch)}</div>
+        </div>
+        <div class="dc-label" style="margin-bottom:6px;">Milestones</div>
+        <div class="ms-track" style="margin-bottom:12px;">
+          <div class="ms-band"><div class="ms-lbl">0–3 Mo</div><div style="font-size:12px;">${ms1||'—'}</div></div>
+          <div class="ms-band"><div class="ms-lbl">3–6 Mo</div><div style="font-size:12px;">${ms2||'—'}</div></div>
+          <div class="ms-band"><div class="ms-lbl">6–12 Mo</div><div style="font-size:12px;">${ms3||'—'}</div></div>
+          <div class="ms-band"><div class="ms-lbl">12–18 Mo</div><div style="font-size:12px;">${ms4||'—'}</div></div>
+        </div>
+        <div class="grid2">
+          <div><div class="dc-label">Support Needed</div><div class="dc" style="font-size:12px;white-space:pre-line;">${support||'—'}</div></div>
+          <div><div class="dc-label">Readiness Milestone</div>${dc(readiness)}</div>
+        </div>`;
+      cont.appendChild(card);
+      // add to combined
+      const cc=card.cloneNode(true);
+      cc.querySelector('.card-title').innerHTML+=` <span style="font-size:10px;color:var(--gold-dim);font-family:'DM Sans',sans-serif;font-weight:400;">· ${p.user.name}</span>`;
+      p4c.appendChild(cc);
+    }
+  });
+  if(!partList.length){p4g.innerHTML='<div class="empty-msg">No submissions yet.</div>';}
+
+  // ── SECTION 5: DEV ROCKS ──
+  const p5g=document.getElementById('p5-grouped'); p5g.innerHTML='';
+  const p5c=document.getElementById('p5-combined'); p5c.innerHTML='';
+
+  partList.forEach(p=>{
+    const getV=k=>{const r=p.rows.find(x=>x.field===k);return r?r.value:'';};
+    const block=document.createElement('div'); block.className='part-block';
+    block.innerHTML=`<div class="part-header"><div class="part-av">${p.user.initials}</div><div><div class="part-name">${p.user.name}</div><div class="part-role">${p.user.role}</div></div><span class="part-sbu-tag">${p.user.bu}</span></div><div id="p5g-rocks-${p.slug}"></div>`;
+    p5g.appendChild(block);
+    const cont=document.getElementById('p5g-rocks-'+p.slug);
+    for(let i=1;i<=20;i++){
+      const succ=getV('s5_r'+i+'_successor'); if(!succ&&i>1)break; if(!succ)continue;
+      const eos=getV('s5_r'+i+'_eos'), stmt=getV('s5_r'+i+'_statement'), kpi=getV('s5_r'+i+'_kpi'), date=getV('s5_r'+i+'_date');
+      const card=document.createElement('div'); card.className='card'; card.style.marginBottom='10px';
+      card.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--gold);">${succ}</div>${rockTag(eos)}</div>
+        ${dc(stmt)}
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+          ${kpi?`<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:5px 9px;font-size:11px;"><span style="color:var(--muted);">KPI:</span> ${kpi}</div>`:''}
+          ${date?`<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:5px 9px;font-size:11px;"><span style="color:var(--muted);">Due:</span> ${date}</div>`:''}
+        </div>`;
+      cont.appendChild(card);
+      const cc=card.cloneNode(true);p5c.appendChild(cc);
+    }
+  });
+  if(!partList.length){p5g.innerHTML='<div class="empty-msg">No submissions yet.</div>';}
+
+  // ── SECTION 6: DASHBOARD ──
   const tbody=document.getElementById('dash-tbody'); tbody.innerHTML='';
-  for(let i=1;i<=30;i++){
-    const name=v(rows,'s6_d'+i+'_name'); if(!name&&i>1)break; if(!name)continue;
-    const cur=v(rows,'s6_d'+i+'_cur'), tgt=v(rows,'s6_d'+i+'_tgt'), tier=v(rows,'s6_d'+i+'_tier');
-    const rock=v(rows,'s6_d'+i+'_rock'), mentor=v(rows,'s6_d'+i+'_mentor'), ms=v(rows,'s6_d'+i+'_ms');
-    const date=v(rows,'s6_d'+i+'_date'), blocker=v(rows,'s6_d'+i+'_blocker');
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-weight:600;">${name}</td>
-      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);color:var(--muted);font-size:12px;">${cur||'—'}</td>
-      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;">${tgt||'—'}</td>
-      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);">${tierBadge(tier)}</td>
-      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;max-width:160px;">${rock||'—'}</td>
-      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;">${mentor||'—'}</td>
-      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;max-width:140px;">${ms||'—'}</td>
-      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;white-space:nowrap;">${date||'—'}</td>
-      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;color:${blocker?'var(--red)':'var(--dim)'};">${blocker||'—'}</td>`;
-    tbody.appendChild(tr);
-  }
+  partList.forEach(p=>{
+    const getV=k=>{const r=p.rows.find(x=>x.field===k);return r?r.value:'';};
+    for(let i=1;i<=30;i++){
+      const name=getV('s6_d'+i+'_name'); if(!name&&i>1)break; if(!name)continue;
+      const cur=getV('s6_d'+i+'_cur'), tgt=getV('s6_d'+i+'_tgt'), tier=getV('s6_d'+i+'_tier');
+      const rock=getV('s6_d'+i+'_rock'), mentor=getV('s6_d'+i+'_mentor'), ms=getV('s6_d'+i+'_ms');
+      const date=getV('s6_d'+i+'_date'), blocker=getV('s6_d'+i+'_blocker');
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td style="padding:9px 10px;border-bottom:1px solid rgba(201,168,76,.05);"><span style="font-size:10px;color:var(--gold-dim);background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.15);border-radius:2px;padding:1px 6px;">${p.user.name}</span></td>
+        <td style="padding:9px 10px;border-bottom:1px solid rgba(201,168,76,.05);font-weight:600;">${name}</td>
+        <td style="padding:9px 10px;border-bottom:1px solid rgba(201,168,76,.05);color:var(--muted);font-size:12px;">${cur||'—'}</td>
+        <td style="padding:9px 10px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;">${tgt||'—'}</td>
+        <td style="padding:9px 10px;border-bottom:1px solid rgba(201,168,76,.05);">${tierBadge(tier)}</td>
+        <td style="padding:9px 10px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;max-width:140px;">${rock||'—'}</td>
+        <td style="padding:9px 10px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;">${mentor||'—'}</td>
+        <td style="padding:9px 10px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;max-width:130px;">${ms||'—'}</td>
+        <td style="padding:9px 10px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;white-space:nowrap;">${date||'—'}</td>
+        <td style="padding:9px 10px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;color:${blocker?'var(--red)':'var(--dim)'};">${blocker||'—'}</td>`;
+      tbody.appendChild(tr);
+    }
+  });
+  if(!tbody.children.length) tbody.innerHTML='<tr><td colspan="10" style="padding:20px;text-align:center;color:var(--dim);font-style:italic;">No dashboard entries yet.</td></tr>';
 
-  // Completion %
-  const filled=rows.filter(r=>!r.key.startsWith('presence:')&&!r.key.startsWith('rating:')&&!r.key.startsWith('tier:')&&r.value&&r.value.trim()).length;
-  document.getElementById('ov-pct').textContent=Math.min(Math.round(filled/Math.max(rows.length,20)*100),100)+'%';
-
-  // Update lastSeen for all
-  rows.forEach(r=>lastSeen[r.key]=r.value);
+  // COMMITMENTS
+  const commitDiv=document.getElementById('commitments-list'); commitDiv.innerHTML='';
+  partList.forEach(p=>{
+    const getV=k=>{const r=p.rows.find(x=>x.field===k);return r?r.value:'';};
+    const comm=getV('commitment'); if(!comm)return;
+    const row=document.createElement('div'); row.style.cssText='display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(201,168,76,.06);';
+    row.innerHTML=`<div style="width:30px;height:30px;border-radius:50%;background:var(--bg-panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;">${p.user.initials}</div>
+      <div><div style="font-size:12px;font-weight:600;color:var(--gold);margin-bottom:3px;">${p.user.name}</div><div style="font-size:13px;color:var(--text);">${comm}</div></div>`;
+    commitDiv.appendChild(row);
+  });
+  if(!commitDiv.children.length) commitDiv.innerHTML='<div class="empty-msg">No commitments submitted yet.</div>';
 
   document.getElementById('syncPill').className='sync-pill live';
   document.getElementById('syncPill').textContent='● Live';
 }
 
 render();
-setInterval(render, 2500);
+setInterval(render,2500);
 </script>
 </body>
 </html>
