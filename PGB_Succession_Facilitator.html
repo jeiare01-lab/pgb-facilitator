@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PGB Succession Planning — Facilitator Display</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C; --gold-light: #E8C96A; --gold-dim: #8A6E30; --gold-faint: rgba(201,168,76,0.08);
+    --bg: #080808; --bg-card: #0F0F0C; --bg-panel: #141411; --bg-deep: #050505;
+    --text: #F2E8CC; --muted: #8A7E68; --dim: #4A4640;
+    --border: rgba(201,168,76,0.14); --border-hi: rgba(201,168,76,0.45);
+    --green: #5B9870; --amber: #C4872A; --blue: #4878A0; --red: #B84848;
+    --new-glow: rgba(201,168,76,0.22);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;overflow:hidden;}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;}
+
+  /* GRAIN OVERLAY */
+  body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.6;}
+
+  /* ── CHROME ── */
+  #chrome{position:fixed;top:0;left:0;right:0;height:58px;z-index:500;background:rgba(8,8,8,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 32px;gap:20px;}
+  .ch-logo{font-family:'Cinzel',serif;font-size:17px;color:var(--gold);letter-spacing:.12em;}
+  .ch-sep{width:1px;height:20px;background:var(--border);}
+  .ch-mode{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;}
+  .ch-right{display:flex;align-items:center;gap:14px;margin-left:auto;}
+  .ch-clock{font-family:'Cinzel',serif;font-size:15px;color:var(--text);letter-spacing:.06em;}
+  .ch-online{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);}
+  .ch-dot{width:7px;height:7px;border-radius:50%;background:var(--green);}
+  .ch-avatars{display:flex;gap:4px;}
+  .av{width:28px;height:28px;border-radius:50%;background:var(--bg-panel);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold);}
+  .sync-pill{font-size:10px;padding:3px 10px;border-radius:10px;border:1px solid;transition:all .3s;}
+  .sync-pill.live{border-color:var(--green);color:var(--green);background:rgba(91,152,112,.1);}
+  .sync-pill.syncing{border-color:var(--amber);color:var(--amber);background:rgba(196,135,42,.1);animation:blink .8s infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+  /* ── SECTION TABS ── */
+  #tabs{position:fixed;top:58px;left:0;right:0;height:46px;z-index:400;background:var(--bg-card);border-bottom:1px solid var(--border);display:flex;align-items:stretch;padding:0 32px;gap:2px;}
+  .tab{display:flex;align-items:center;gap:8px;padding:0 18px;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);font-size:12px;font-weight:500;letter-spacing:.03em;transition:all .2s;white-space:nowrap;}
+  .tab:hover{color:var(--text);}
+  .tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+  .tab-num{font-family:'Cinzel',serif;font-size:9px;color:var(--dim);}
+  .tab.active .tab-num{color:var(--gold-dim);}
+
+  /* ── CONTENT AREA ── */
+  #content{position:fixed;top:104px;left:0;right:0;bottom:0;overflow-y:auto;padding:36px 48px 48px;}
+
+  /* ── SECTION PANELS ── */
+  .panel{display:none;animation:fadeUp .35s ease;}
+  .panel.active{display:block;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+  /* ── SECTION HEADER ── */
+  .ph{margin-bottom:32px;}
+  .ph-tag{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.22em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px;}
+  .ph-title{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;line-height:1.08;}
+  .ph-title em{font-style:italic;color:var(--gold);}
+
+  /* ── GRID LAYOUTS ── */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+
+  /* ── CARDS ── */
+  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:5px;padding:24px;}
+  .card-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .card-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--gold-dim),transparent);}
+
+  /* ── DATA CELLS — what participants filled in ── */
+  .dc{background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:14px 16px;min-height:52px;font-size:14px;color:var(--text);line-height:1.6;transition:all .4s;position:relative;word-break:break-word;}
+  .dc.empty{color:var(--dim);font-style:italic;font-size:12px;}
+  .dc.new-flash{border-color:var(--gold);background:rgba(201,168,76,.06);box-shadow:0 0 0 3px var(--new-glow);}
+  .dc-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  .dc-by{position:absolute;top:6px;right:8px;font-size:9px;color:var(--gold-dim);letter-spacing:.06em;}
+
+  /* ── CANDIDATE CARDS ── */
+  .cand-card{background:var(--bg-panel);border:1px solid var(--border);border-radius:4px;padding:18px;position:relative;transition:border-color .4s;}
+  .cand-card.new-flash{border-color:var(--gold);box-shadow:0 0 0 3px var(--new-glow);}
+  .cand-num{font-family:'Cinzel',serif;font-size:28px;color:var(--dim);position:absolute;top:12px;right:16px;line-height:1;}
+  .cand-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--gold);margin-bottom:2px;}
+  .cand-role{font-size:12px;color:var(--muted);margin-bottom:10px;}
+  .cand-why{font-size:13px;color:var(--text);line-height:1.65;border-top:1px solid var(--border);padding-top:10px;margin-top:8px;}
+  .cand-meta{display:flex;gap:10px;margin-bottom:6px;flex-wrap:wrap;}
+  .cand-tag{font-size:10px;padding:2px 8px;border-radius:2px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--gold-dim);}
+
+  /* ── RATINGS DISPLAY ── */
+  .rating-pill{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:3px;font-size:14px;font-weight:700;border:1px solid;}
+  .rp{background:rgba(91,152,112,.2);border-color:var(--green);color:var(--green);}
+  .rm{background:rgba(196,135,42,.2);border-color:var(--amber);color:var(--amber);}
+  .rn{background:rgba(184,72,72,.2);border-color:var(--red);color:var(--red);}
+  .r-empty{background:var(--bg-panel);border-color:var(--border);color:var(--dim);font-size:11px;}
+
+  /* ── TIER BADGE ── */
+  .tier-badge{display:inline-block;padding:4px 14px;border-radius:3px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;font-weight:600;text-transform:uppercase;}
+  .t-now{background:rgba(91,152,112,.18);border:1px solid var(--green);color:var(--green);}
+  .t-soon{background:rgba(72,120,160,.18);border:1px solid var(--blue);color:var(--blue);}
+  .t-later{background:rgba(196,135,42,.18);border:1px solid var(--amber);color:var(--amber);}
+  .t-unready{background:rgba(184,72,72,.18);border:1px solid var(--red);color:var(--red);}
+  .t-empty{background:var(--bg-panel);border:1px solid var(--border);color:var(--dim);}
+
+  /* ── BENCH SUMMARY ── */
+  .bench-card{border-radius:4px;padding:20px 16px;text-align:center;border:1px solid;}
+  .bench-card.now{border-color:var(--green);background:rgba(91,152,112,.07);}
+  .bench-card.soon{border-color:var(--blue);background:rgba(72,120,160,.07);}
+  .bench-card.later{border-color:var(--amber);background:rgba(196,135,42,.07);}
+  .bench-card.unr{border-color:var(--red);background:rgba(184,72,72,.07);}
+  .bench-num{font-family:'Cinzel',serif;font-size:48px;font-weight:600;line-height:1;margin-bottom:6px;}
+  .bench-card.now .bench-num{color:var(--green);}
+  .bench-card.soon .bench-num{color:var(--blue);}
+  .bench-card.later .bench-num{color:var(--amber);}
+  .bench-card.unr .bench-num{color:var(--red);}
+  .bench-lbl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+
+  /* ── ROCK TAGS ── */
+  .rt{display:inline-block;padding:2px 9px;border-radius:2px;font-size:11px;font-weight:600;letter-spacing:.05em;}
+  .rt-s{background:rgba(91,152,112,.15);color:var(--green);}
+  .rt-c{background:rgba(196,135,42,.15);color:var(--amber);}
+  .rt-p{background:rgba(72,120,160,.15);color:var(--blue);}
+  .rt-j{background:rgba(201,168,76,.15);color:var(--gold);}
+
+  /* ── PHASE BOXES ── */
+  .phase-box{background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:16px;}
+  .phase-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.15em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:4px;}
+  .phase-title{font-size:13px;font-weight:600;color:var(--gold);margin-bottom:10px;}
+
+  /* ── MILESTONE TRACK ── */
+  .ms-track{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  .ms-band{background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:13px;}
+  .ms-lbl{font-family:'Cinzel',serif;font-size:9px;color:var(--gold-dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;}
+
+  /* ── EMPTY STATE ── */
+  .empty-state{text-align:center;padding:60px 40px;color:var(--dim);}
+  .empty-state .es-icon{font-size:32px;margin-bottom:12px;opacity:.4;}
+  .empty-state .es-msg{font-size:13px;font-style:italic;}
+
+  /* ── OVERVIEW ── */
+  .ov-stat{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:20px;text-align:center;}
+  .ov-stat-num{font-family:'Cinzel',serif;font-size:36px;color:var(--gold);line-height:1;margin-bottom:4px;}
+  .ov-stat-lbl{font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.06em;text-transform:uppercase;}
+
+  /* ── DIVIDERS ── */
+  hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar{width:4px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px;}
+
+  /* ── FULLSCREEN PROMPT ── */
+  #fsPrompt{position:fixed;bottom:20px;right:24px;z-index:600;font-size:11px;color:var(--dim);cursor:pointer;padding:6px 12px;border:1px solid var(--border);border-radius:3px;background:var(--bg-card);transition:all .2s;}
+  #fsPrompt:hover{color:var(--text);border-color:var(--border-hi);}
+
+  /* ── NEW ENTRY ANIMATION ── */
+  @keyframes slideIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+  .slide-in{animation:slideIn .4s ease;}
+</style>
+</head>
+<body>
+
+<!-- CHROME BAR -->
+<div id="chrome">
+  <div class="ch-logo">PGB</div>
+  <div class="ch-sep"></div>
+  <div class="ch-mode">Facilitator Display</div>
+  <div class="ch-right">
+    <div class="ch-online">
+      <div class="ch-dot"></div>
+      <span id="onlineCount">0 online</span>
+    </div>
+    <div class="ch-avatars" id="chAvatars"></div>
+    <div class="ch-sep"></div>
+    <div class="sync-pill live" id="syncPill">● Live</div>
+    <div class="ch-sep"></div>
+    <div class="ch-clock" id="clock">--:--</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div id="tabs">
+  <div class="tab active" onclick="showPanel('p0',this)"><span class="tab-num">—</span>Overview</div>
+  <div class="tab" onclick="showPanel('p1',this)"><span class="tab-num">1</span>Candidates</div>
+  <div class="tab" onclick="showPanel('p2',this)"><span class="tab-num">2</span>Role Map</div>
+  <div class="tab" onclick="showPanel('p3',this)"><span class="tab-num">3</span>PA & GWC</div>
+  <div class="tab" onclick="showPanel('p4',this)"><span class="tab-num">4</span>Growth Maps</div>
+  <div class="tab" onclick="showPanel('p5',this)"><span class="tab-num">5</span>Dev Rocks</div>
+  <div class="tab" onclick="showPanel('p6',this)"><span class="tab-num">6</span>Dashboard</div>
+</div>
+
+<!-- CONTENT -->
+<div id="content">
+
+  <!-- ── OVERVIEW ── -->
+  <div class="panel active" id="p0">
+    <div class="ph">
+      <div class="ph-tag">Succession Planning Workshop · PGB</div>
+      <div class="ph-title">Live Session<br><em>Overview</em></div>
+    </div>
+
+    <div class="grid4" style="margin-bottom:24px;">
+      <div class="ov-stat"><div class="ov-stat-num" id="ov-participants">0</div><div class="ov-stat-lbl">Online Now</div></div>
+      <div class="ov-stat"><div class="ov-stat-num" id="ov-candidates">0</div><div class="ov-stat-lbl">Candidates Named</div></div>
+      <div class="ov-stat"><div class="ov-stat-num" id="ov-rocks">0</div><div class="ov-stat-lbl">Dev Rocks Planned</div></div>
+      <div class="ov-stat"><div class="ov-stat-num" id="ov-fields">0%</div><div class="ov-stat-lbl">Workbook Complete</div></div>
+    </div>
+
+    <div class="grid2" style="margin-bottom:20px;">
+      <div class="card">
+        <div class="card-title">Session Details</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div><div class="dc-label">Workshop Date</div><div class="dc" id="ov-date"></div></div>
+          <div><div class="dc-label">Facilitator</div><div class="dc" id="ov-facilitator"></div></div>
+          <div><div class="dc-label">Location</div><div class="dc" id="ov-location"></div></div>
+          <div><div class="dc-label">Dashboard Owner</div><div class="dc" id="ov-owner"></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Participants Online</div>
+        <div id="ov-participants-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Bench Summary — Current Counts</div>
+      <div class="grid4">
+        <div class="bench-card now"><div class="bench-num" id="ov-bench-now">0</div><div class="bench-lbl">Ready Now</div></div>
+        <div class="bench-card soon"><div class="bench-num" id="ov-bench-soon">0</div><div class="bench-lbl">Ready Soon</div></div>
+        <div class="bench-card later"><div class="bench-num" id="ov-bench-later">0</div><div class="bench-lbl">Ready Later</div></div>
+        <div class="bench-card unr"><div class="bench-num" id="ov-bench-unr">0</div><div class="bench-lbl">Unready</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 1: CANDIDATES ── -->
+  <div class="panel" id="p1">
+    <div class="ph">
+      <div class="ph-tag">Section 1 · Identifying Successors</div>
+      <div class="ph-title">Nominated<br><em>Candidates</em></div>
+    </div>
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">Role Being Planned For</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+        <div><div class="dc-label">Critical Role</div><div class="dc" id="f-s1_role"></div></div>
+        <div><div class="dc-label">Current Holder</div><div class="dc" id="f-s1_holder"></div></div>
+        <div><div class="dc-label">Why Critical</div><div class="dc" id="f-s1_why_critical"></div></div>
+      </div>
+    </div>
+    <div id="cands-display" class="grid2"></div>
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title">Talent Pool Notes</div>
+      <div class="grid4">
+        <div><div class="dc-label">Direct Reports</div><div class="dc" id="f-s1_pool_direct"></div></div>
+        <div><div class="dc-label">Emerging Leaders</div><div class="dc" id="f-s1_pool_emerging"></div></div>
+        <div><div class="dc-label">Cross-Functional</div><div class="dc" id="f-s1_pool_cross"></div></div>
+        <div><div class="dc-label">Who Might Be Overlooked</div><div class="dc" id="f-s1_pool_overlook"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: ROLE MAP ── -->
+  <div class="panel" id="p2">
+    <div class="ph">
+      <div class="ph-tag">Section 2 · Understanding the Role</div>
+      <div class="ph-title">Role Map &amp;<br><em>Transition Plan</em></div>
+    </div>
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">The 4 Essential Questions</div>
+      <div id="s2-accs-display" style="margin-bottom:16px;"></div>
+      <hr>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
+        <div><div class="dc-label">What Does Excellence Look Like?</div><div class="dc" id="f-s2_excellence"></div></div>
+        <div><div class="dc-label">Common Failure Modes</div><div class="dc" id="f-s2_failures"></div></div>
+      </div>
+      <hr>
+      <div id="s2-rels-display" style="margin-top:4px;"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Phased Transition Plan</div>
+      <div class="grid3">
+        <div class="phase-box"><div class="phase-lbl">Phase 1 · Months 1–3</div><div class="phase-title">Shadow & Learn</div><div class="dc" id="f-s2_phase1"></div></div>
+        <div class="phase-box"><div class="phase-lbl">Phase 2 · Months 3–6</div><div class="phase-title">Lead with Support</div><div class="dc" id="f-s2_phase2"></div></div>
+        <div class="phase-box"><div class="phase-lbl">Phase 3 · Month 6+</div><div class="phase-title">Full Handover</div><div class="dc" id="f-s2_phase3"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 3: PA & GWC ── -->
+  <div class="panel" id="p3">
+    <div class="ph">
+      <div class="ph-tag">Section 3 · PA & GWC Calibration</div>
+      <div class="ph-title">Readiness<br><em>Assessment Grid</em></div>
+    </div>
+    <div id="s3-display"></div>
+  </div>
+
+  <!-- ── SECTION 4: GROWTH MAPS ── -->
+  <div class="panel" id="p4">
+    <div class="ph">
+      <div class="ph-tag">Section 4 · Growth Journey Maps</div>
+      <div class="ph-title">Development<br><em>Roadmaps</em></div>
+    </div>
+    <div id="s4-display"></div>
+  </div>
+
+  <!-- ── SECTION 5: DEV ROCKS ── -->
+  <div class="panel" id="p5">
+    <div class="ph">
+      <div class="ph-tag">Section 5 · Development Rock Planner</div>
+      <div class="ph-title">Dev Rocks<br><em>& EOS Alignment</em></div>
+    </div>
+    <div id="s5-display" class="grid2"></div>
+  </div>
+
+  <!-- ── SECTION 6: DASHBOARD ── -->
+  <div class="panel" id="p6">
+    <div class="ph">
+      <div class="ph-tag">Section 6 · Dashboard & Governance</div>
+      <div class="ph-title">Succession<br><em>Dashboard</em></div>
+    </div>
+    <div class="grid4" style="margin-bottom:20px;">
+      <div class="bench-card now"><div class="bench-num" id="d-bench-now">0</div><div class="bench-lbl">Ready Now</div></div>
+      <div class="bench-card soon"><div class="bench-num" id="d-bench-soon">0</div><div class="bench-lbl">Ready Soon</div></div>
+      <div class="bench-card later"><div class="bench-num" id="d-bench-later">0</div><div class="bench-lbl">Ready Later</div></div>
+      <div class="bench-card unr"><div class="bench-num" id="d-bench-unr">0</div><div class="bench-lbl">Unready</div></div>
+    </div>
+    <div class="card" style="margin-bottom:18px;overflow-x:auto;">
+      <div class="card-title">Live Succession Dashboard</div>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;" id="dash-table">
+        <thead>
+          <tr>
+            <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Successor</th>
+            <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Current Role</th>
+            <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Target Role</th>
+            <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Tier</th>
+            <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Current Rock</th>
+            <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Mentor</th>
+            <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Next Milestone</th>
+            <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Date</th>
+            <th style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;">Blockers</th>
+          </tr>
+        </thead>
+        <tbody id="dash-tbody"></tbody>
+      </table>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Governance Cadence</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div><div class="dc-label">Weekly 1:1 Owner</div><div class="dc" id="f-gov_weekly"></div></div>
+          <div><div class="dc-label">First Quarterly Review Date</div><div class="dc" id="f-gov_quarterly"></div></div>
+          <div><div class="dc-label">Annual Workshop Date</div><div class="dc" id="f-gov_annual"></div></div>
+          <div><div class="dc-label">Escalation Path</div><div class="dc" id="f-gov_escalation"></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Leader Commitments — Next 7 Days</div>
+        <div class="dc" id="f-commitment" style="min-height:120px;"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FULLSCREEN HINT -->
+<div id="fsPrompt" onclick="toggleFS()">⛶ Fullscreen</div>
+
+<script>
+// ══════════════════════════════════════════
+// STORAGE
+// ══════════════════════════════════════════
+async function sGet(key) {
+  try { const r = await window.storage.get(key, true); return r ? JSON.parse(r.value) : null; } catch(e) { return null; }
+}
+async function sList(prefix) {
+  try { const r = await window.storage.list(prefix, true); return r ? r.keys : []; } catch(e) { return []; }
+}
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let lastSeen = {};   // key → timestamp, to detect changes
+let POLL_MS = 2500;  // poll every 2.5s for facilitator (faster than participant)
+
+// ══════════════════════════════════════════
+// CLOCK
+// ══════════════════════════════════════════
+function tickClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clock').textContent = h + ':' + m + ':' + s;
+}
+setInterval(tickClock, 1000); tickClock();
+
+// ══════════════════════════════════════════
+// NAV
+// ══════════════════════════════════════════
+function showPanel(id, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+// ══════════════════════════════════════════
+// FULLSCREEN
+// ══════════════════════════════════════════
+function toggleFS() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+    document.getElementById('fsPrompt').textContent = '✕ Exit Fullscreen';
+  } else {
+    document.exitFullscreen();
+    document.getElementById('fsPrompt').textContent = '⛶ Fullscreen';
+  }
+}
+
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+function val(data) { return data ? (data.value || '') : ''; }
+
+function setDC(id, data, isNew) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const v = val(data);
+  el.textContent = v || '';
+  el.className = 'dc' + (v ? '' : ' empty');
+  if (!v) el.textContent = '—';
+  if (isNew && v) flashEl(el);
+}
+
+function flashEl(el) {
+  el.classList.add('new-flash');
+  setTimeout(() => el.classList.remove('new-flash'), 2200);
+}
+
+function tierBadge(tier) {
+  if (!tier) return '<span class="tier-badge t-empty">—</span>';
+  const map = { 'Ready Now':'t-now', 'Ready Soon':'t-soon', 'Ready Later':'t-later', 'Unready':'t-unready' };
+  return `<span class="tier-badge ${map[tier]||'t-empty'}">${tier||'—'}</span>`;
+}
+
+function ratingPill(val) {
+  if (!val) return '<span class="rating-pill r-empty">?</span>';
+  if (val === 'plus')  return '<span class="rating-pill rp">+</span>';
+  if (val === 'mixed') return '<span class="rating-pill rm">±</span>';
+  if (val === 'minus') return '<span class="rating-pill rn">–</span>';
+  return '<span class="rating-pill r-empty">?</span>';
+}
+
+function rockTag(eos) {
+  if (!eos) return '';
+  if (eos.includes('Succession')) return `<span class="rt rt-s">${eos}</span>`;
+  if (eos.includes('Cash'))       return `<span class="rt rt-c">${eos}</span>`;
+  if (eos.includes('Productivity'))return `<span class="rt rt-p">${eos}</span>`;
+  if (eos.includes('Partner'))    return `<span class="rt rt-j">${eos}</span>`;
+  return `<span class="rt">${eos}</span>`;
+}
+
+function isNew(key, ts) {
+  if (!ts) return false;
+  const prev = lastSeen[key];
+  return !prev || prev < ts;
+}
+
+// ══════════════════════════════════════════
+// MAIN RENDER
+// ══════════════════════════════════════════
+async function render() {
+  setSyncing(true);
+
+  // ── PRESENCE ──
+  const presenceKeys = await sList('presence:');
+  const now = Date.now();
+  const users = [];
+  for (const k of presenceKeys) {
+    const u = await sGet(k);
+    if (u && (now - u.ts) < 120000) users.push(u);
+  }
+  renderPresence(users);
+
+  // ── LOAD ALL FIELDS ──
+  const fieldKeys = await sList('field:');
+  const fields = {};
+  for (const k of fieldKeys) {
+    const d = await sGet(k);
+    if (d) fields[k.replace('field:','')] = d;
+  }
+
+  // ── LOAD ALL RATINGS ──
+  const ratingKeys = await sList('rating:');
+  const ratings = {};
+  for (const k of ratingKeys) {
+    const d = await sGet(k);
+    if (d) ratings[k.replace('rating:','')] = d;
+  }
+
+  // ── LOAD ALL TIERS ──
+  const tierKeys = await sList('tier:');
+  const tiers = {};
+  for (const k of tierKeys) {
+    const d = await sGet(k);
+    if (d) tiers[k.replace('tier:','')] = d;
+  }
+
+  // ── OVERVIEW ──
+  document.getElementById('ov-participants').textContent = users.length;
+  setDC('ov-date',         fields['session_date']);
+  setDC('ov-facilitator',  fields['session_facilitator']);
+  setDC('ov-location',     fields['session_location']);
+  setDC('ov-owner',        fields['session_dashboard_owner']);
+
+  // ── SECTION 1 SIMPLE FIELDS ──
+  ['s1_role','s1_holder','s1_why_critical','s1_pool_direct','s1_pool_emerging','s1_pool_cross','s1_pool_overlook'].forEach(k => {
+    const n = isNew(k, fields[k]?.ts);
+    setDC('f-' + k, fields[k], n);
+    if (n && fields[k]) lastSeen[k] = fields[k].ts;
+  });
+
+  // ── SECTION 1 CANDIDATES ──
+  const candContainer = document.getElementById('cands-display');
+  let candCount = 0;
+  for (let i = 1; i <= 20; i++) {
+    const name = val(fields[`s1_cand${i}_name`]);
+    if (!name && i > 1) break;
+    if (!name) continue;
+    candCount++;
+    const id = 'cand-card-' + i;
+    let card = document.getElementById(id);
+    const role    = val(fields[`s1_cand${i}_role`]);
+    const target  = val(fields[`s1_cand${i}_target`]);
+    const by      = val(fields[`s1_cand${i}_by`]);
+    const why     = val(fields[`s1_cand${i}_why`]);
+    const nameNew = isNew('s1_cand'+i+'_name', fields[`s1_cand${i}_name`]?.ts);
+    const whyNew  = isNew('s1_cand'+i+'_why',  fields[`s1_cand${i}_why`]?.ts);
+
+    if (!card) {
+      card = document.createElement('div');
+      card.className = 'cand-card slide-in';
+      card.id = id;
+      candContainer.appendChild(card);
+    }
+    card.innerHTML = `
+      <div class="cand-num">${String(i).padStart(2,'0')}</div>
+      <div class="cand-name">${name}</div>
+      <div class="cand-meta">
+        ${role   ? `<span class="cand-tag">${role}</span>`   : ''}
+        ${target ? `<span class="cand-tag">→ ${target}</span>` : ''}
+        ${by     ? `<span class="cand-tag">by ${by}</span>`  : ''}
+      </div>
+      ${why ? `<div class="cand-why">${why}</div>` : ''}`;
+    if (nameNew || whyNew) { flashEl(card); }
+    ['s1_cand'+i+'_name','s1_cand'+i+'_why'].forEach(k => { if (fields[k]) lastSeen[k] = fields[k].ts; });
+  }
+  document.getElementById('ov-candidates').textContent = candCount;
+
+  // ── SECTION 2 ──
+  const s2AccsDiv = document.getElementById('s2-accs-display');
+  s2AccsDiv.innerHTML = '<div class="dc-label" style="margin-bottom:8px;">Top Accountabilities</div>';
+  for (let i = 1; i <= 10; i++) {
+    const v = val(fields[`s2_acc${i}`]);
+    if (!v && i > 1) break;
+    if (!v) continue;
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;';
+    row.innerHTML = `<span style="font-family:'Cinzel',serif;font-size:13px;color:var(--gold-dim);min-width:20px;padding-top:1px;">${i}.</span><div class="dc" style="flex:1;">${v}</div>`;
+    s2AccsDiv.appendChild(row);
+  }
+
+  const s2RelsDiv = document.getElementById('s2-rels-display');
+  s2RelsDiv.innerHTML = '<div class="dc-label" style="margin-bottom:8px;">Key Relationships</div><div style="display:flex;flex-wrap:wrap;gap:8px;">';
+  let relsHTML = '';
+  for (let i = 1; i <= 10; i++) {
+    const v = val(fields[`s2_rel${i}`]);
+    if (!v && i > 1) break;
+    if (!v) continue;
+    relsHTML += `<span class="cand-tag" style="font-size:12px;padding:4px 10px;">${v}</span>`;
+  }
+  s2RelsDiv.innerHTML = '<div class="dc-label" style="margin-bottom:8px;">Key Relationships</div><div style="display:flex;flex-wrap:wrap;gap:8px;">' + relsHTML + '</div>';
+
+  ['s2_excellence','s2_failures','s2_phase1','s2_phase2','s2_phase3'].forEach(k => {
+    setDC('f-' + k, fields[k], isNew(k, fields[k]?.ts));
+    if (fields[k]) lastSeen[k] = fields[k].ts;
+  });
+
+  // ── SECTION 3 ──
+  const s3Div = document.getElementById('s3-display');
+  const benchCounts = { 'Ready Now':0, 'Ready Soon':0, 'Ready Later':0, 'Unready':0 };
+  const cvNames = ['Pagsalig','Hini-usang Pagkugi','Pagpalambo'];
+  const gwcNames = ['Gets It','Wants It','Capacity'];
+  const compNames = ['Job Knowledge','Decision Making','Communication','Planning & Org','Leadership','Customer Focus'];
+
+  for (let i = 1; i <= 20; i++) {
+    const name = val(fields[`s3_c${i}_name`]);
+    if (!name && i > 1) break;
+    if (!name) continue;
+    const target  = val(fields[`s3_c${i}_target`]);
+    const devfocus= val(fields[`s3_c${i}_devfocus`]);
+    const tierData= tiers[`s3_c${i}_tier`];
+    const tier    = val(tierData);
+    if (tier && benchCounts[tier] !== undefined) benchCounts[tier]++;
+
+    const id = 's3-card-' + i;
+    let card = document.getElementById(id);
+    if (!card) {
+      card = document.createElement('div');
+      card.className = 'card slide-in';
+      card.id = id;
+      card.style.marginBottom = '18px';
+      s3Div.appendChild(card);
+    }
+
+    const cvHTML = cvNames.map((_,j) => {
+      const r = val(ratings[`s3_c${i}_cv${j}`]);
+      return `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(201,168,76,.06);">
+        <div style="flex:1;font-size:12px;">${cvNames[j]}</div>
+        ${ratingPill(r)}
+      </div>`;
+    }).join('');
+
+    const gwcHTML = gwcNames.map((_,j) => {
+      const r = val(ratings[`s3_c${i}_gwc${j}`]);
+      return `<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:10px;text-align:center;">
+        <div style="font-family:'Cinzel',serif;font-size:10px;color:var(--gold);margin-bottom:6px;">${gwcNames[j]}</div>
+        ${ratingPill(r)}
+      </div>`;
+    }).join('');
+
+    const compHTML = compNames.map((_,j) => {
+      const r = val(ratings[`s3_c${i}_comp${j}`]);
+      return `<div style="display:flex;align-items:center;gap:8px;background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:8px 10px;">
+        <span style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold-dim);min-width:14px;">0${j+1}</span>
+        <span style="flex:1;font-size:11px;">${compNames[j]}</span>
+        ${ratingPill(r)}
+      </div>`;
+    }).join('');
+
+    card.innerHTML = `
+      <div class="card-title">${name} ${target ? '→ ' + target : ''}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 2fr;gap:14px;align-items:start;">
+        <div>
+          <div class="dc-label" style="margin-bottom:8px;">Core Values</div>
+          ${cvHTML}
+        </div>
+        <div>
+          <div class="dc-label" style="margin-bottom:8px;">GWC</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">${gwcHTML}</div>
+        </div>
+        <div>
+          <div class="dc-label" style="margin-bottom:8px;">Competencies</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">${compHTML}</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;display:flex;align-items:center;gap:14px;">
+        <div>
+          <div class="dc-label" style="margin-bottom:4px;">Consensus Tier</div>
+          ${tierBadge(tier)}
+        </div>
+        ${devfocus ? `<div style="flex:1;"><div class="dc-label" style="margin-bottom:4px;">Development Focus</div><div class="dc" style="font-size:12px;">${devfocus}</div></div>` : ''}
+      </div>`;
+  }
+
+  // update bench counts from s3
+  ['ov-bench-now','d-bench-now'].forEach(id => document.getElementById(id).textContent = benchCounts['Ready Now']);
+  ['ov-bench-soon','d-bench-soon'].forEach(id => document.getElementById(id).textContent = benchCounts['Ready Soon']);
+  ['ov-bench-later','d-bench-later'].forEach(id => document.getElementById(id).textContent = benchCounts['Ready Later']);
+  ['ov-bench-unr','d-bench-unr'].forEach(id => document.getElementById(id).textContent = benchCounts['Unready']);
+
+  // ── SECTION 4 ──
+  const s4Div = document.getElementById('s4-display');
+  for (let i = 1; i <= 20; i++) {
+    const name = val(fields[`s4_m${i}_name`]);
+    if (!name && i > 1) break;
+    if (!name) continue;
+    const tierV   = val(fields[`s4_m${i}_tier`]);
+    const comp    = val(fields[`s4_m${i}_comp`]);
+    const stretch = val(fields[`s4_m${i}_stretch`]);
+    const ms1     = val(fields[`s4_m${i}_ms1`]);
+    const ms2     = val(fields[`s4_m${i}_ms2`]);
+    const ms3     = val(fields[`s4_m${i}_ms3`]);
+    const ms4     = val(fields[`s4_m${i}_ms4`]);
+    const support = val(fields[`s4_m${i}_support`]);
+    const readiness = val(fields[`s4_m${i}_readiness`]);
+
+    const id = 's4-card-' + i;
+    let card = document.getElementById(id);
+    if (!card) {
+      card = document.createElement('div');
+      card.className = 'card slide-in';
+      card.id = id;
+      card.style.marginBottom = '18px';
+      s4Div.appendChild(card);
+    }
+
+    card.innerHTML = `
+      <div class="card-title" style="margin-bottom:14px;">
+        ${name} &nbsp; ${tierBadge(tierV)}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+        <div><div class="dc-label">Competency Focus</div><div class="dc">${comp||'—'}</div></div>
+        <div><div class="dc-label">Stretch Assignment</div><div class="dc">${stretch||'—'}</div></div>
+      </div>
+      <div class="dc-label" style="margin-bottom:8px;">Milestones</div>
+      <div class="ms-track" style="margin-bottom:14px;">
+        <div class="ms-band"><div class="ms-lbl">0–3 Months</div><div style="font-size:12px;color:var(--text);">${ms1||'—'}</div></div>
+        <div class="ms-band"><div class="ms-lbl">3–6 Months</div><div style="font-size:12px;color:var(--text);">${ms2||'—'}</div></div>
+        <div class="ms-band"><div class="ms-lbl">6–12 Months</div><div style="font-size:12px;color:var(--text);">${ms3||'—'}</div></div>
+        <div class="ms-band"><div class="ms-lbl">12–18 Months</div><div style="font-size:12px;color:var(--text);">${ms4||'—'}</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div><div class="dc-label">Support Needed</div><div class="dc" style="font-size:12px;white-space:pre-line;">${support||'—'}</div></div>
+        <div><div class="dc-label">Readiness Milestone</div><div class="dc" style="font-size:12px;">${readiness||'—'}</div></div>
+      </div>`;
+  }
+
+  // ── SECTION 5 ──
+  const s5Div = document.getElementById('s5-display');
+  let rockCount = 0;
+  for (let i = 1; i <= 30; i++) {
+    const succ = val(fields[`s5_r${i}_successor`]);
+    if (!succ && i > 1) break;
+    if (!succ) continue;
+    rockCount++;
+    const eos  = val(fields[`s5_r${i}_eos`]);
+    const stmt = val(fields[`s5_r${i}_statement`]);
+    const kpi  = val(fields[`s5_r${i}_kpi`]);
+    const date = val(fields[`s5_r${i}_date`]);
+
+    const id = 's5-card-' + i;
+    let card = document.getElementById(id);
+    if (!card) {
+      card = document.createElement('div');
+      card.className = 'card slide-in';
+      card.id = id;
+      s5Div.appendChild(card);
+    }
+
+    card.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--gold);">${succ}</div>
+        ${rockTag(eos)}
+      </div>
+      <div class="dc" style="font-size:13px;margin-bottom:10px;">${stmt||'—'}</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        ${kpi  ? `<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:6px 10px;font-size:11px;"><span style="color:var(--muted);">KPI:</span> ${kpi}</div>` : ''}
+        ${date ? `<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:6px 10px;font-size:11px;"><span style="color:var(--muted);">Due:</span> ${date}</div>` : ''}
+      </div>`;
+  }
+  document.getElementById('ov-rocks').textContent = rockCount;
+
+  // ── SECTION 6 DASHBOARD TABLE ──
+  const tbody = document.getElementById('dash-tbody');
+  tbody.innerHTML = '';
+  for (let i = 1; i <= 30; i++) {
+    const name = val(fields[`s6_d${i}_name`]);
+    if (!name && i > 1) break;
+    if (!name) continue;
+    const cur     = val(fields[`s6_d${i}_cur`]);
+    const tgt     = val(fields[`s6_d${i}_tgt`]);
+    const tier    = val(fields[`s6_d${i}_tier`]);
+    const rock    = val(fields[`s6_d${i}_rock`]);
+    const mentor  = val(fields[`s6_d${i}_mentor`]);
+    const ms      = val(fields[`s6_d${i}_ms`]);
+    const date    = val(fields[`s6_d${i}_date`]);
+    const blocker = val(fields[`s6_d${i}_blocker`]);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-weight:600;">${name}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);color:var(--muted);font-size:12px;">${cur||'—'}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;">${tgt||'—'}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);">${tierBadge(tier)}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;max-width:180px;">${rock||'—'}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;">${mentor||'—'}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;max-width:160px;">${ms||'—'}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;white-space:nowrap;">${date||'—'}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.05);font-size:12px;color:${blocker?'var(--red)':'var(--dim)'};">${blocker||'—'}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  // ── GOVERNANCE / COMMITMENT ──
+  ['gov_weekly','gov_quarterly','gov_annual','gov_escalation','commitment'].forEach(k => {
+    setDC('f-' + k, fields[k], isNew(k, fields[k]?.ts));
+    if (fields[k]) lastSeen[k] = fields[k].ts;
+  });
+
+  // ── COMPLETION % ──
+  const total = Object.keys(fields).length;
+  const filled = Object.values(fields).filter(d => d && d.value && d.value.trim()).length;
+  const pct = total ? Math.round((filled / Math.max(total, 20)) * 100) : 0;
+  document.getElementById('ov-fields').textContent = Math.min(pct, 100) + '%';
+
+  setSyncing(false);
+}
+
+// ══════════════════════════════════════════
+// PRESENCE RENDER
+// ══════════════════════════════════════════
+function renderPresence(users) {
+  document.getElementById('onlineCount').textContent = users.length + ' online';
+  const av = document.getElementById('chAvatars');
+  av.innerHTML = '';
+  users.slice(0,8).forEach(u => {
+    const d = document.createElement('div');
+    d.className = 'av';
+    d.title = u.name + ' · ' + u.role + ' · ' + u.bu;
+    d.textContent = u.initials || '??';
+    av.appendChild(d);
+  });
+
+  const list = document.getElementById('ov-participants-list');
+  if (list) {
+    list.innerHTML = '';
+    users.forEach(u => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(201,168,76,.06);';
+      row.innerHTML = `
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;">${u.initials||'??'}</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;">${u.name}</div>
+          <div style="font-size:11px;color:var(--muted);">${u.role} &nbsp;·&nbsp; ${u.bu}</div>
+        </div>
+        <div style="margin-left:auto;width:7px;height:7px;border-radius:50%;background:var(--green);"></div>`;
+      list.appendChild(row);
+    });
+    if (!users.length) {
+      list.innerHTML = '<div style="color:var(--dim);font-style:italic;font-size:13px;padding:12px 0;">No participants online yet. Share the Collaborative Workbook link to get started.</div>';
+    }
+  }
+}
+
+// ══════════════════════════════════════════
+// SYNC INDICATOR
+// ══════════════════════════════════════════
+function setSyncing(v) {
+  const pill = document.getElementById('syncPill');
+  pill.className = 'sync-pill ' + (v ? 'syncing' : 'live');
+  pill.textContent = v ? '● Syncing…' : '● Live';
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+render();
+setInterval(render, POLL_MS);
+</script>
+</body>
+</html>
