@@ -153,6 +153,66 @@
 
   @keyframes slideIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
   .slide-in{animation:slideIn .4s ease;}
+
+  /* ADMIN OVERLAY */
+  #adminOverlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+  #adminOverlay.open{display:flex;}
+  .admin-modal{width:480px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:44px;text-align:center;}
+  .admin-modal-title{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;}
+  .admin-modal-sub{font-size:12px;color:var(--muted);margin-bottom:28px;line-height:1.6;}
+  .admin-pw-input{width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:3px;color:var(--text);font-family:'Cinzel',serif;font-size:16px;padding:12px 16px;outline:none;text-align:center;letter-spacing:.3em;margin-bottom:16px;}
+  .admin-pw-input:focus{border-color:var(--border-hi);}
+  .admin-btn{width:100%;padding:12px;background:var(--gold);color:#080808;border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+  .admin-btn:hover{background:var(--gold-light);}
+  .admin-err{font-size:12px;color:var(--red);margin-top:10px;min-height:18px;}
+  .admin-cancel{font-size:11px;color:var(--dim);cursor:pointer;margin-top:14px;display:block;}
+  .admin-cancel:hover{color:var(--muted);}
+
+  /* ADMIN PANEL */
+  #adminPanel{position:fixed;top:104px;left:0;right:0;bottom:0;z-index:900;background:var(--bg);overflow-y:auto;padding:32px 44px 44px;display:none;}
+  #adminPanel.open{display:block;}
+  .adm-bar{display:flex;align-items:center;gap:14px;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+  .adm-bar-title{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);letter-spacing:.1em;}
+  .adm-bar-sub{font-size:11px;color:var(--muted);}
+  .adm-close{padding:7px 16px;background:transparent;border:1px solid var(--border);border-radius:3px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-left:auto;}
+  .adm-close:hover{border-color:var(--red);color:var(--red);}
+  .adm-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:24px;}
+  .adm-tab{padding:10px 20px;cursor:pointer;font-size:12px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px;}
+  .adm-tab:hover{color:var(--text);}
+  .adm-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+  .adm-section{display:none;}
+  .adm-section.active{display:block;}
+  .adm-section-hdr{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.15em;color:var(--gold-dim);text-transform:uppercase;margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .adm-part-block{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:14px;}
+  .adm-part-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .adm-av{width:32px;height:32px;border-radius:50%;background:var(--bg-panel);border:1.5px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;}
+  .adm-name{font-size:14px;font-weight:600;}
+  .adm-meta{font-size:11px;color:var(--muted);}
+  .adm-actions{margin-left:auto;display:flex;gap:6px;}
+  .adm-table{width:100%;border-collapse:collapse;font-size:12px;}
+  .adm-table th{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;color:var(--gold-dim);text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);font-weight:400;}
+  .adm-table td{padding:8px 10px;border-bottom:1px solid rgba(201,168,76,.05);vertical-align:middle;}
+  .adm-table tr:last-child td{border-bottom:none;}
+  .adm-table tr:hover td{background:rgba(201,168,76,.02);}
+  .ei{background:var(--bg-input);border:1px solid var(--border);border-radius:2px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 8px;outline:none;width:100%;}
+  .ei:focus{border-color:var(--border-hi);}
+  .btn-save{padding:4px 10px;background:rgba(91,152,112,.15);border:1px solid var(--green);border-radius:2px;color:var(--green);font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap;}
+  .btn-save:hover{background:rgba(91,152,112,.25);}
+  .btn-del{padding:4px 10px;background:rgba(184,72,72,.12);border:1px solid var(--red);border-radius:2px;color:var(--red);font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap;margin-left:4px;}
+  .btn-del:hover{background:rgba(184,72,72,.22);}
+  .btn-add-row{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:9px;border:1px dashed var(--border);border-radius:3px;background:transparent;color:var(--dim);font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;transition:all .2s;margin-top:8px;}
+  .btn-add-row:hover{border-color:var(--gold-dim);color:var(--gold);}
+  .btn-danger{padding:6px 14px;background:rgba(184,72,72,.1);border:1px solid var(--red);border-radius:3px;color:var(--red);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;}
+  .btn-danger:hover{background:rgba(184,72,72,.2);}
+  .audit-row{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(201,168,76,.05);}
+  .audit-time{font-size:10px;color:var(--dim);min-width:90px;padding-top:2px;white-space:nowrap;}
+  .audit-who{font-size:11px;font-weight:600;color:var(--gold-dim);min-width:100px;}
+  .audit-action{font-size:12px;color:var(--text);flex:1;line-height:1.5;}
+  .audit-type{font-size:9px;padding:2px 7px;border-radius:2px;font-weight:600;letter-spacing:.06em;flex-shrink:0;}
+  .a-add{background:rgba(91,152,112,.15);color:var(--green);}
+  .a-edit{background:rgba(72,120,160,.15);color:var(--blue);}
+  .a-del{background:rgba(184,72,72,.15);color:var(--red);}
+  .a-sys{background:rgba(201,168,76,.1);color:var(--gold-dim);}
 </style>
 </head>
 <body>
@@ -179,6 +239,7 @@
   <div class="tab" onclick="showPanel('p4',this)"><span class="tab-num">4</span>Growth Maps</div>
   <div class="tab" onclick="showPanel('p5',this)"><span class="tab-num">5</span>Dev Rocks</div>
   <div class="tab" onclick="showPanel('p6',this)"><span class="tab-num">6</span>Dashboard</div>
+  <div class="tab" onclick="openAdmin()" style="margin-left:auto;color:var(--amber);border-bottom:2px solid transparent;" id="adminTab">⚙ Admin</div>
 </div>
 
 <div id="content">
@@ -306,14 +367,304 @@
 
 <div id="fsBtn" onclick="toggleFS()">⛶ Fullscreen</div>
 
+<!-- ADMIN PASSWORD OVERLAY -->
+<div id="adminOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);">
+  <div style="width:460px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:44px;text-align:center;">
+    <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Admin Access</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:28px;line-height:1.6;">Enter the facilitator admin password to access data management, editing, and audit logs.</div>
+    <input id="adminPwInput" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkAdminPw()" style="width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:3px;color:var(--text);font-family:'Cinzel',serif;font-size:16px;padding:12px 16px;outline:none;text-align:center;letter-spacing:.3em;margin-bottom:16px;">
+    <button onclick="checkAdminPw()" style="width:100%;padding:12px;background:var(--gold);color:#080808;border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;">Enter Admin →</button>
+    <div id="adminErr" style="font-size:12px;color:var(--red);margin-top:10px;min-height:18px;"></div>
+    <span onclick="closeAdminOverlay()" style="font-size:11px;color:var(--dim);cursor:pointer;margin-top:14px;display:block;">Cancel</span>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel" style="position:fixed;top:104px;left:0;right:0;bottom:0;z-index:900;background:var(--bg);overflow-y:auto;padding:32px 44px 44px;display:none;">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--border);">
+    <div><div style="font-family:'Cinzel',serif;font-size:15px;color:var(--gold);letter-spacing:.1em;">⚙ Admin Panel</div><div style="font-size:11px;color:var(--muted);margin-top:2px;">Logged in as facilitator · All actions are logged to audit trail</div></div>
+    <button onclick="closeAdmin()" style="padding:7px 16px;background:transparent;border:1px solid var(--border);border-radius:3px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;margin-left:auto;">✕ Close Admin</button>
+  </div>
+  <div style="display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:24px;">
+    <div class="adm-tab active" onclick="showAdmSection('adm-data',this)">Data Management</div>
+    <div class="adm-tab" onclick="showAdmSection('adm-participants',this)">Participants</div>
+    <div class="adm-tab" onclick="showAdmSection('adm-audit',this);loadAuditLog()">Audit Log</div>
+    <div class="adm-tab" onclick="showAdmSection('adm-tools',this)">Tools</div>
+  </div>
+
+  <div class="adm-section active" id="adm-data">
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">Edit or delete any participant field entry. All changes are saved to Supabase and logged automatically.</div>
+    <div id="adm-data-content"><div style="color:var(--dim);font-style:italic;font-size:13px;">Loading…</div></div>
+  </div>
+
+  <div class="adm-section" id="adm-participants">
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">View all registered participants and their submission progress. Remove a participant to clear all their data.</div>
+    <div id="adm-participants-content"><div style="color:var(--dim);font-style:italic;font-size:13px;">Loading…</div></div>
+  </div>
+
+  <div class="adm-section" id="adm-audit">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <div style="font-size:13px;color:var(--muted);">Complete record of all facilitator actions — edits, deletions, additions, and system events.</div>
+      <button onclick="loadAuditLog()" style="padding:6px 14px;background:transparent;border:1px solid var(--border);border-radius:3px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;margin-left:auto;">↻ Refresh</button>
+      <button onclick="exportAuditLog()" style="padding:6px 14px;background:rgba(201,168,76,.1);border:1px solid var(--gold-dim);border-radius:3px;color:var(--gold-dim);font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;">↓ Export CSV</button>
+    </div>
+    <div id="adm-audit-content"><div style="color:var(--dim);font-style:italic;font-size:13px;">Loading audit log…</div></div>
+  </div>
+
+  <div class="adm-section" id="adm-tools">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:22px;">
+        <div style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;">Add Field Entry</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:14px;">Manually add a field on behalf of a participant.</div>
+        <div style="margin-bottom:10px;"><label style="font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px;">Participant Slug (Name_With_Underscores)</label><input type="text" class="ei" id="tool-slug" placeholder="e.g. Maria_Santos"></div>
+        <div style="margin-bottom:10px;"><label style="font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px;">Field Key</label><input type="text" class="ei" id="tool-key" placeholder="e.g. s1_cand1_name"></div>
+        <div style="margin-bottom:14px;"><label style="font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px;">Value</label><input type="text" class="ei" id="tool-value" placeholder="Field value"></div>
+        <button onclick="toolAddEntry()" style="padding:8px 18px;background:var(--gold);color:#080808;border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;">Add Entry</button>
+        <div id="tool-add-msg" style="font-size:11px;margin-top:8px;min-height:16px;"></div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:22px;">
+        <div style="font-family:'Cinzel',serif;font-size:11px;color:var(--red);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;">Danger Zone</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:18px;">These actions are irreversible. All deletions are written to the audit log before execution.</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button onclick="clearParticipant()" style="padding:9px 14px;background:rgba(184,72,72,.1);border:1px solid var(--red);border-radius:3px;color:var(--red);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:left;">🗑 Clear a Specific Participant's Data</button>
+          <button onclick="clearAllData()" style="padding:9px 14px;background:rgba(184,72,72,.1);border:1px solid var(--red);border-radius:3px;color:var(--red);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:left;">⚠ Clear All Session Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 const SUPA_URL='https://xbzmkilksrcozcnbcwlj.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhiem1raWxrc3Jjb3pjbmJjd2xqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MDcwMTMsImV4cCI6MjA5MDA4MzAxM30.25yGZWjWrO175oJzfr0oKkS6W5w-UuSACTWcf21uy-0';
 const H={'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY};
+const HW={...H,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'};
 
-// VIEW STATE
+// ── ADMIN ──
+const ADMIN_PW='PGB2025admin';
+let adminOpen=false;
+
+function openAdmin(){document.getElementById('adminOverlay').classList.add('open');document.getElementById('adminPwInput').value='';document.getElementById('adminErr').textContent='';setTimeout(()=>document.getElementById('adminPwInput').focus(),100);}
+function closeAdminOverlay(){document.getElementById('adminOverlay').classList.remove('open');}
+function checkAdminPw(){
+  if(document.getElementById('adminPwInput').value===ADMIN_PW){
+    adminOpen=true;
+    document.getElementById('adminOverlay').classList.remove('open');
+    document.getElementById('adminPanel').classList.add('open');
+    document.getElementById('content').style.display='none';
+    document.getElementById('adminTab').style.color='var(--green)';
+    loadAdminData();
+    writeAudit('Facilitator','LOGIN','Admin panel accessed');
+  } else {
+    document.getElementById('adminErr').textContent='Incorrect password. Try again.';
+    document.getElementById('adminPwInput').value='';
+    document.getElementById('adminPwInput').focus();
+  }
+}
+function closeAdmin(){
+  document.getElementById('adminPanel').classList.remove('open');
+  document.getElementById('content').style.display='';
+  document.getElementById('adminTab').style.color='var(--amber)';
+  adminOpen=false;
+}
+function showAdmSection(id,el){
+  document.querySelectorAll('.adm-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.adm-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ── SUPABASE ──
+async function dbGetAll(){const r=await fetch(`${SUPA_URL}/rest/v1/workshop_data?select=*&order=updated_at.desc`,{headers:H});return r.ok?await r.json():[];}
+async function dbUpsert(key,value,by='Facilitator'){await fetch(`${SUPA_URL}/rest/v1/workshop_data`,{method:'POST',headers:HW,body:JSON.stringify({key,value,updated_by:by,updated_at:new Date().toISOString()})});}
+async function dbDelete(key){await fetch(`${SUPA_URL}/rest/v1/workshop_data?key=eq.${encodeURIComponent(key)}`,{method:'DELETE',headers:H});}
+
+// ── AUDIT ──
+async function writeAudit(who,type,action,detail=''){
+  const rows=await dbGetAll();
+  const existing=rows.find(r=>r.key==='audit_log');
+  let log=[];
+  if(existing){try{log=JSON.parse(existing.value);}catch(e){log=[];}}
+  log.unshift({ts:new Date().toISOString(),who,type,action,detail});
+  if(log.length>500)log=log.slice(0,500);
+  await dbUpsert('audit_log',JSON.stringify(log),'system');
+}
+
+async function loadAuditLog(){
+  const el=document.getElementById('adm-audit-content');
+  el.innerHTML='<div style="color:var(--dim);font-size:13px;padding:12px 0;">Loading…</div>';
+  const rows=await dbGetAll();
+  const logRow=rows.find(r=>r.key==='audit_log');
+  if(!logRow){el.innerHTML='<div style="color:var(--dim);font-style:italic;font-size:13px;padding:20px 0;">No audit entries yet.</div>';return;}
+  let log=[];try{log=JSON.parse(logRow.value);}catch(e){el.innerHTML='<div style="color:var(--red);">Error reading audit log.</div>';return;}
+  if(!log.length){el.innerHTML='<div style="color:var(--dim);font-style:italic;font-size:13px;padding:20px 0;">No audit entries yet.</div>';return;}
+  el.innerHTML='';
+  log.forEach(entry=>{
+    const d=new Date(entry.ts);
+    const t=d.toLocaleDateString('en-PH',{month:'short',day:'numeric'})+' '+d.toLocaleTimeString('en-PH',{hour:'2-digit',minute:'2-digit'});
+    const tc=entry.type==='ADD'?'a-add':entry.type==='EDIT'?'a-edit':entry.type==='DELETE'?'a-del':'a-sys';
+    const row=document.createElement('div'); row.className='audit-row';
+    row.innerHTML=`<span class="audit-time">${t}</span><span class="audit-who">${entry.who||'—'}</span><span class="audit-action">${entry.action}${entry.detail?` <span style="color:var(--dim);font-size:11px;">— ${entry.detail}</span>`:''}</span><span class="audit-type ${tc}">${entry.type}</span>`;
+    el.appendChild(row);
+  });
+}
+
+function exportAuditLog(){
+  const rows=document.getElementById('adm-audit-content').querySelectorAll('.audit-row');
+  if(!rows.length){alert('No audit log to export.');return;}
+  let csv='Time,Who,Action,Type\n';
+  rows.forEach(row=>{
+    const c=[...row.querySelectorAll('.audit-time,.audit-who,.audit-action,.audit-type')].map(x=>'"'+x.textContent.replace(/"/g,'""')+'"');
+    csv+=c.join(',')+'\n';
+  });
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='pgb_audit_log_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
+}
+
+// ── ADMIN DATA ──
+async function loadAdminData(){
+  const rows=await dbGetAll();
+  const now=Date.now();
+  const users=rows.filter(r=>r.key.startsWith('presence:')).map(r=>{try{return JSON.parse(r.value);}catch(e){return null;}}).filter(u=>u&&(now-u.ts)<3600000);
+  const participants={};
+  rows.forEach(row=>{
+    if(row.key.startsWith('presence:')||row.key==='audit_log')return;
+    const m=row.key.match(/^p:([^:]+):(.+)$/); if(!m)return;
+    const [,slug,field]=m;
+    if(!participants[slug])participants[slug]={slug,rows:[]};
+    participants[slug].rows.push({field,value:row.value,fullKey:row.key,updated_by:row.updated_by,updated_at:row.updated_at});
+  });
+  Object.keys(participants).forEach(slug=>{
+    const user=users.find(u=>u.name.replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_]/g,'')===slug);
+    participants[slug].user=user||{name:slug.replace(/_/g,' '),role:'',bu:'',initials:slug.slice(0,2).toUpperCase()};
+  });
+  const partList=Object.values(participants);
+  renderDataMgmt(partList);
+  renderParticipantsMgmt(partList,users,now);
+}
+
+function renderDataMgmt(partList){
+  const el=document.getElementById('adm-data-content'); el.innerHTML='';
+  if(!partList.length){el.innerHTML='<div style="color:var(--dim);font-style:italic;font-size:13px;padding:20px 0;">No participant data found.</div>';return;}
+  const SLABELS={'s1':'Section 1 — Candidates','s2':'Section 2 — Role Map','s3':'Section 3 — PA & GWC','s4':'Section 4 — Growth Maps','s5':'Section 5 — Dev Rocks','s6':'Section 6 — Dashboard'};
+  partList.forEach(p=>{
+    const u=p.user;
+    const block=document.createElement('div'); block.className='adm-part-block';
+    block.innerHTML=`<div class="adm-part-hdr"><div class="adm-av">${u.initials}</div><div><div class="adm-name">${u.name}</div><div class="adm-meta">${u.role} · ${u.bu}</div></div><div class="adm-actions"><button class="btn-danger" onclick="clearParticipantBySlug('${p.slug}','${u.name}')">🗑 Clear All</button></div></div><div id="adm-f-${p.slug}"></div>`;
+    el.appendChild(block);
+    const fd=document.getElementById('adm-f-'+p.slug);
+    const sections={};
+    p.rows.forEach(row=>{
+      if(row.field.startsWith('rating:')||row.field.startsWith('tier:'))return;
+      const sec=row.field.match(/^(s[1-6])/)?row.field.match(/^(s[1-6])/)[1]:'other';
+      if(!sections[sec])sections[sec]=[];
+      sections[sec].push(row);
+    });
+    Object.keys(sections).sort().forEach(sec=>{
+      const hdr=document.createElement('div'); hdr.className='adm-section-hdr'; hdr.textContent=SLABELS[sec]||sec; fd.appendChild(hdr);
+      const tbl=document.createElement('table'); tbl.className='adm-table';
+      tbl.innerHTML='<thead><tr><th style="width:180px;">Field</th><th>Value</th><th style="width:130px;">Last Updated</th><th style="width:120px;">Actions</th></tr></thead>';
+      const tb=document.createElement('tbody');
+      sections[sec].sort((a,b)=>a.field.localeCompare(b.field)).forEach(row=>{
+        const eid='ei-'+btoa(row.fullKey).replace(/[^a-zA-Z0-9]/g,'');
+        const rid='ar-'+btoa(row.fullKey).replace(/[^a-zA-Z0-9]/g,'');
+        const upd=row.updated_at?new Date(row.updated_at).toLocaleString('en-PH',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
+        const tr=document.createElement('tr'); tr.id=rid;
+        tr.innerHTML=`<td style="color:var(--gold-dim);font-family:monospace;font-size:10px;">${row.field}</td>
+          <td><input type="text" class="ei" id="${eid}" value="${(row.value||'').replace(/"/g,'&quot;').replace(/</g,'&lt;')}" data-orig="${(row.value||'').replace(/"/g,'&quot;').replace(/</g,'&lt;')}"></td>
+          <td style="color:var(--muted);font-size:10px;">${row.updated_by||'—'}<br>${upd}</td>
+          <td><button class="btn-save" onclick="saveEdit('${row.fullKey}','${u.name}','${eid}')">Save</button><button class="btn-del" onclick="delField('${row.fullKey}','${u.name}','${row.field}','${rid}')">Del</button></td>`;
+        tb.appendChild(tr);
+      });
+      tbl.appendChild(tb); fd.appendChild(tbl);
+    });
+  });
+}
+
+async function saveEdit(fullKey,userName,eid){
+  const input=document.getElementById(eid); if(!input)return;
+  const nv=input.value, orig=input.dataset.orig;
+  if(nv===orig){showToast('No changes.');return;}
+  await dbUpsert(fullKey,nv,'Facilitator');
+  input.dataset.orig=nv;
+  await writeAudit('Facilitator','EDIT',`Edited field for ${userName}`,`${fullKey.split(':').pop()} → "${nv.slice(0,60)}${nv.length>60?'…':''}"`);
+  showToast('✓ Saved');
+}
+
+async function delField(fullKey,userName,fieldName,rowId){
+  if(!confirm(`Delete field "${fieldName}" for ${userName}?\nThis cannot be undone.`))return;
+  await dbDelete(fullKey);
+  await writeAudit('Facilitator','DELETE',`Deleted field for ${userName}`,fieldName);
+  const row=document.getElementById(rowId);
+  if(row){row.style.opacity='0';row.style.transition='opacity .3s';setTimeout(()=>row.remove(),300);}
+  showToast('🗑 Deleted');
+}
+
+function renderParticipantsMgmt(partList,onlineUsers,now){
+  const el=document.getElementById('adm-participants-content'); el.innerHTML='';
+  if(!partList.length){el.innerHTML='<div style="color:var(--dim);font-style:italic;font-size:13px;padding:20px 0;">No participants found.</div>';return;}
+  partList.forEach(p=>{
+    const u=p.user;
+    const online=onlineUsers.some(x=>x.name===u.name&&(now-x.ts)<90000);
+    const fields=p.rows.filter(r=>!r.field.startsWith('rating:')&&!r.field.startsWith('tier:')).length;
+    const block=document.createElement('div'); block.className='adm-part-block';
+    block.innerHTML=`<div class="adm-part-hdr">
+      <div class="adm-av">${u.initials}</div>
+      <div><div class="adm-name">${u.name} <span style="font-size:10px;padding:2px 7px;border-radius:2px;background:${online?'rgba(91,152,112,.15)':'rgba(74,72,64,.2)'};color:${online?'var(--green)':'var(--dim)'};">${online?'● Online':'○ Offline'}</span></div><div class="adm-meta">${u.role} · ${u.bu}</div></div>
+      <div style="margin-left:auto;text-align:right;"><div style="font-family:'Cinzel',serif;font-size:22px;color:var(--gold);">${fields}</div><div style="font-size:10px;color:var(--muted);">fields filled</div></div>
+    </div>
+    <button class="btn-danger" onclick="clearParticipantBySlug('${p.slug}','${u.name}')">🗑 Clear All Data for ${u.name}</button>`;
+    el.appendChild(block);
+  });
+}
+
+async function clearParticipantBySlug(slug,name){
+  if(!confirm(`Clear ALL data for ${name}?\n\nThis deletes all their nominations, ratings, and entries. Cannot be undone.`))return;
+  const rows=await dbGetAll();
+  const toDelete=rows.filter(r=>r.key.startsWith('p:'+slug+':')||r.key==='presence:'+slug);
+  for(const row of toDelete) await dbDelete(row.key);
+  await writeAudit('Facilitator','DELETE',`Cleared all data for ${name}`,`${toDelete.length} records deleted`);
+  showToast(`🗑 ${name}'s data cleared`);
+  loadAdminData();
+}
+
+async function clearParticipant(){
+  const name=prompt('Enter the exact participant name to clear:'); if(!name)return;
+  await clearParticipantBySlug(name.replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_]/g,''),name);
+}
+
+async function clearAllData(){
+  if(!confirm('⚠ Delete ALL session data for ALL participants?\nThis cannot be undone.'))return;
+  if(!confirm('Final confirmation — permanently delete everything?'))return;
+  const rows=await dbGetAll();
+  const toDelete=rows.filter(r=>r.key!=='audit_log');
+  for(const row of toDelete) await dbDelete(row.key);
+  await writeAudit('Facilitator','DELETE','CLEARED ALL SESSION DATA',`${toDelete.length} records deleted`);
+  showToast('⚠ All data cleared');
+  loadAdminData();
+}
+
+async function toolAddEntry(){
+  const slug=document.getElementById('tool-slug').value.trim();
+  const key=document.getElementById('tool-key').value.trim();
+  const value=document.getElementById('tool-value').value.trim();
+  const msgEl=document.getElementById('tool-add-msg');
+  if(!slug||!key||!value){msgEl.style.color='var(--red)';msgEl.textContent='All fields required.';return;}
+  await dbUpsert('p:'+slug+':'+key,value,'Facilitator');
+  await writeAudit('Facilitator','ADD',`Manually added entry for ${slug}`,`${key} = "${value.slice(0,60)}"`);
+  msgEl.style.color='var(--green)'; msgEl.textContent='✓ Added';
+  setTimeout(()=>msgEl.textContent='',3000);
+  loadAdminData();
+}
+
+function showToast(msg){
+  let t=document.getElementById('adm-toast');
+  if(!t){t=document.createElement('div');t.id='adm-toast';t.style.cssText='position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:10px 22px;font-size:13px;color:var(--text);z-index:9000;opacity:0;transition:opacity .3s;pointer-events:none;';document.body.appendChild(t);}
+  t.textContent=msg; t.style.opacity='1';
+  clearTimeout(t._t); t._t=setTimeout(()=>t.style.opacity='0',2500);
+}
+
+// ── VIEW TOGGLE ──
 const viewState={p1:'grouped',p2:'grouped',p3:'grouped',p4:'grouped',p5:'grouped'};
-
 function setView(panel,view){
   viewState[panel]=view;
   const g=document.getElementById(panel+'-grouped'), c=document.getElementById(panel+'-combined');
@@ -323,22 +674,21 @@ function setView(panel,view){
   document.getElementById('vt'+panel.replace('p','')+'-combined').classList.toggle('active',view==='combined');
 }
 
-// CLOCK
+// ── CLOCK ──
 setInterval(()=>{const n=new Date();document.getElementById('clock').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');},1000);
 
 function showPanel(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');if(el)el.classList.add('active');}
 function toggleFS(){if(!document.fullscreenElement){document.documentElement.requestFullscreen();document.getElementById('fsBtn').textContent='✕ Exit';}else{document.exitFullscreen();document.getElementById('fsBtn').textContent='⛶ Fullscreen';}}
 
-// HELPERS
+// ── HELPERS ──
 function V(rows,prefix,key){const r=rows.find(x=>x.key===prefix+key);return r?r.value:'';}
 function tierBadge(t){if(!t)return '<span class="tier-badge t-empty">—</span>';const m={'Ready Now':'t-now','Ready Soon':'t-soon','Ready Later':'t-later','Unready':'t-unready'};return `<span class="tier-badge ${m[t]||'t-empty'}">${t}</span>`;}
 function rPill(v){if(!v)return '<span class="rp-pill rpe">?</span>';if(v==='plus')return '<span class="rp-pill rpp">+</span>';if(v==='mixed')return '<span class="rp-pill rpm">±</span>';if(v==='minus')return '<span class="rp-pill rpn">–</span>';return '<span class="rp-pill rpe">?</span>';}
 function rockTag(e){if(!e)return '';if(e.includes('Succession'))return `<span class="rt rt-s">${e}</span>`;if(e.includes('Cash'))return `<span class="rt rt-c">${e}</span>`;if(e.includes('Prod'))return `<span class="rt rt-p">${e}</span>`;return `<span class="rt rt-j">${e}</span>`;}
 function dc(val){return `<div class="dc ${val?'':'empty'}">${val||'—'}</div>`;}
 
-async function dbGetAll(){const r=await fetch(`${SUPA_URL}/rest/v1/workshop_data?select=*`,{headers:H});return r.ok?await r.json():[];}
-
 async function render(){
+  if(adminOpen)return;
   document.getElementById('syncPill').className='sync-pill syncing';
   document.getElementById('syncPill').textContent='● Syncing…';
 
