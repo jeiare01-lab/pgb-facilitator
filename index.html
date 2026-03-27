@@ -763,10 +763,11 @@ async function render(){
     for(let i=1;i<=20;i++){if(getV('s1_cand'+i+'_name'))totalCands++;else if(i>1)break;}
     // count rocks
     for(let i=1;i<=20;i++){if(getV('s5_r'+i+'_successor'))totalRocks++;else if(i>1)break;}
-    // count bench
+    // count bench from tier keys in participant rows
     for(let i=1;i<=20;i++){
       const t=prows.find(r=>r.field==='tier:s3_c'+i+'_tier');
-      if(t&&bench[t.value]!==undefined)bench[t.value]++;
+      if(!t){if(i>4)break;continue;}
+      if(bench[t.value]!==undefined)bench[t.value]++;
     }
   });
 
@@ -872,6 +873,9 @@ async function render(){
 
   partList.forEach(p=>{
     const getV=k=>{const r=p.rows.find(x=>x.field===k);return r?r.value:'';};
+    // S3 candidate names may not exist if participant didn't visit S3 — fall back to S1
+    const getCandName=(i)=> getV('s3_c'+i+'_name') || getV('s1_cand'+i+'_name');
+    const getCandTarget=(i)=> getV('s3_c'+i+'_target') || getV('s1_cand'+i+'_target') || getV('s1_cand'+i+'_role');
     const block=document.createElement('div'); block.className='part-block';
     block.innerHTML=`<div class="part-header">
       <div class="part-av">${p.user.initials}</div>
@@ -882,9 +886,11 @@ async function render(){
     p3g.appendChild(block);
 
     const cont=document.getElementById('p3g-cands-'+p.slug);
+    let foundAny=false;
     for(let i=1;i<=20;i++){
-      const name=getV('s3_c'+i+'_name'); if(!name&&i>1)break; if(!name)continue;
-      const target=getV('s3_c'+i+'_target'), devfocus=getV('s3_c'+i+'_devfocus');
+      const name=getCandName(i); if(!name&&i>4)break; if(!name)continue;
+      foundAny=true;
+      const target=getCandTarget(i), devfocus=getV('s3_c'+i+'_devfocus');
       const tier=getV('tier:s3_c'+i+'_tier');
       const cvHtml=cvNames.map((_,j)=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(201,168,76,.06);"><div style="flex:1;font-size:12px;">${cvNames[j]}</div>${rPill(getV('rating:s3_c'+i+'_cv'+j))}</div>`).join('');
       const gwcHtml=gwcNames.map((_,j)=>`<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:8px;text-align:center;"><div style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold);margin-bottom:4px;">${gwcNames[j]}</div>${rPill(getV('rating:s3_c'+i+'_gwc'+j))}</div>`).join('');
@@ -897,12 +903,13 @@ async function render(){
           <div><div class="dc-label" style="margin-bottom:6px;">Competencies</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">${compHtml}</div></div>
         </div>
         <div style="margin-top:12px;display:flex;align-items:center;gap:14px;">
-          <div><div class="dc-label" style="margin-bottom:4px;">Consensus Tier</div>${tierBadge(tier)}</div>
+          <div><div class="dc-label" style="margin-bottom:4px;">Readiness Tier</div>${tierBadge(tier)}</div>
           ${devfocus?`<div style="flex:1;"><div class="dc-label" style="margin-bottom:4px;">Development Focus</div><div class="dc" style="font-size:12px;">${devfocus}</div></div>`:''}
         </div>`;
       cont.appendChild(card);
       allRatings.push({name,target,nominatedBy:p.user.name,tier,devfocus,cvRows:cvNames.map((_,j)=>getV('rating:s3_c'+i+'_cv'+j)),gwcRows:gwcNames.map((_,j)=>getV('rating:s3_c'+i+'_gwc'+j)),compRows:compNames.map((_,j)=>getV('rating:s3_c'+i+'_comp'+j))});
     }
+    if(!foundAny) cont.innerHTML='<div style="color:var(--dim);font-style:italic;font-size:12px;padding:10px 0;">No candidates rated yet.</div>';
   });
 
   allRatings.forEach((c,idx)=>{
@@ -917,7 +924,7 @@ async function render(){
         <div><div class="dc-label" style="margin-bottom:6px;">Competencies</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">${compHtml}</div></div>
       </div>
       <div style="margin-top:12px;display:flex;align-items:center;gap:14px;">
-        <div><div class="dc-label" style="margin-bottom:4px;">Consensus Tier</div>${tierBadge(c.tier)}</div>
+        <div><div class="dc-label" style="margin-bottom:4px;">Readiness Tier</div>${tierBadge(c.tier)}</div>
         ${c.devfocus?`<div style="flex:1;"><div class="dc-label" style="margin-bottom:4px;">Development Focus</div><div class="dc" style="font-size:12px;">${c.devfocus}</div></div>`:''}
       </div>`;
     p3c.appendChild(card);
@@ -935,9 +942,16 @@ async function render(){
     block.innerHTML=`<div class="part-header"><div class="part-av">${p.user.initials}</div><div><div class="part-name">${p.user.name}</div><div class="part-role">${p.user.role}</div></div><span class="part-sbu-tag">${p.user.bu}</span></div><div id="p4g-maps-${p.slug}"></div>`;
     p4g.appendChild(block);
     const cont=document.getElementById('p4g-maps-'+p.slug);
+    // Count candidates from S1 to know how many maps to expect
+    let foundAny=false;
     for(let i=1;i<=20;i++){
-      const name=getV('s4_m'+i+'_name'); if(!name&&i>1)break; if(!name)continue;
-      const tierV=getV('s4_m'+i+'_tier'), comp=getV('s4_m'+i+'_comp'), stretch=getV('s4_m'+i+'_stretch');
+      // Fall back to S1 name if S4 name not explicitly saved
+      const name=getV('s4_m'+i+'_name')||getV('s1_cand'+i+'_name');
+      if(!name&&i>4)break; if(!name)continue;
+      foundAny=true;
+      // Fall back to auto-calculated tier from S3 if S4 tier not set
+      const tierV=getV('s4_m'+i+'_tier')||getV('tier:s3_c'+i+'_tier');
+      const comp=getV('s4_m'+i+'_comp'), stretch=getV('s4_m'+i+'_stretch');
       const ms1=getV('s4_m'+i+'_ms1'), ms2=getV('s4_m'+i+'_ms2'), ms3=getV('s4_m'+i+'_ms3'), ms4=getV('s4_m'+i+'_ms4');
       const support=getV('s4_m'+i+'_support'), readiness=getV('s4_m'+i+'_readiness');
       const card=document.createElement('div'); card.className='card'; card.style.marginBottom='12px';
@@ -958,11 +972,11 @@ async function render(){
           <div><div class="dc-label">Readiness Milestone</div>${dc(readiness)}</div>
         </div>`;
       cont.appendChild(card);
-      // add to combined
       const cc=card.cloneNode(true);
       cc.querySelector('.card-title').innerHTML+=` <span style="font-size:10px;color:var(--gold-dim);font-family:'DM Sans',sans-serif;font-weight:400;">· ${p.user.name}</span>`;
       p4c.appendChild(cc);
     }
+    if(!foundAny) cont.innerHTML='<div style="color:var(--dim);font-style:italic;font-size:12px;padding:10px 0;">No growth maps submitted yet.</div>';
   });
   if(!partList.length){p4g.innerHTML='<div class="empty-msg">No submissions yet.</div>';}
 
@@ -976,19 +990,29 @@ async function render(){
     block.innerHTML=`<div class="part-header"><div class="part-av">${p.user.initials}</div><div><div class="part-name">${p.user.name}</div><div class="part-role">${p.user.role}</div></div><span class="part-sbu-tag">${p.user.bu}</span></div><div id="p5g-rocks-${p.slug}"></div>`;
     p5g.appendChild(block);
     const cont=document.getElementById('p5g-rocks-'+p.slug);
+    let foundRock=false;
     for(let i=1;i<=20;i++){
-      const succ=getV('s5_r'+i+'_successor'); if(!succ&&i>1)break; if(!succ)continue;
+      // Fall back to S1 candidate name if explicit successor field not saved
+      const succ=getV('s5_r'+i+'_successor')||getV('s1_cand'+i+'_name');
+      if(!succ&&i>4)break; if(!succ)continue;
       const eos=getV('s5_r'+i+'_eos'), stmt=getV('s5_r'+i+'_statement'), kpi=getV('s5_r'+i+'_kpi'), date=getV('s5_r'+i+'_date');
+      // Only show the rock card if there's meaningful content beyond just a name
+      if(!eos&&!stmt&&!kpi&&!date) continue;
+      foundRock=true;
       const card=document.createElement('div'); card.className='card'; card.style.marginBottom='10px';
-      card.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--gold);">${succ}</div>${rockTag(eos)}</div>
+      card.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--gold);">${succ}</div>
+          ${rockTag(eos)}
+        </div>
         ${dc(stmt)}
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
           ${kpi?`<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:5px 9px;font-size:11px;"><span style="color:var(--muted);">KPI:</span> ${kpi}</div>`:''}
           ${date?`<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:3px;padding:5px 9px;font-size:11px;"><span style="color:var(--muted);">Due:</span> ${date}</div>`:''}
         </div>`;
       cont.appendChild(card);
-      const cc=card.cloneNode(true);p5c.appendChild(cc);
+      const cc=card.cloneNode(true); p5c.appendChild(cc);
     }
+    if(!foundRock) cont.innerHTML='<div style="color:var(--dim);font-style:italic;font-size:12px;padding:10px 0;">No Dev Rocks submitted yet.</div>';
   });
   if(!partList.length){p5g.innerHTML='<div class="empty-msg">No submissions yet.</div>';}
 
