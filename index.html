@@ -6,14 +6,14 @@
 <title>PGB Succession — Facilitator Display</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root{--gold:#C9A84C;--gold-light:#E8C96A;--gold-dim:#8A6E30;--bg:#080808;--bg-card:#0F0F0C;--bg-panel:#141411;--bg-input:#0A0A08;--text:#F2E8CC;--muted:#8A7E68;--dim:#4A4640;--border:rgba(201,168,76,0.14);--border-hi:rgba(201,168,76,0.45);--green:#5B9870;--amber:#C4872A;--blue:#4878A0;--red:#B84848;}
+  :root{--gold:#A07828;--gold-light:#C9A84C;--gold-dim:#8A6820;--bg:#F7F5F0;--bg-card:#FFFFFF;--bg-panel:#F0EDE6;--bg-input:#F7F5F0;--text:#1E1C14;--muted:#6A6455;--dim:#A09880;--border:rgba(160,120,40,0.18);--border-hi:rgba(160,120,40,0.5);--green:#2A6B42;--amber:#B07020;--blue:#2E5F8A;--red:#A03030;}
   *{box-sizing:border-box;margin:0;padding:0;}
   html,body{height:100%;overflow:hidden;}
   body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;}
-  body::after{content:'';position:fixed;inset:0;opacity:.5;pointer-events:none;z-index:9999;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");}
+  body::after{display:none;}
 
   /* CHROME */
-  #chrome{position:fixed;top:0;left:0;right:0;height:58px;z-index:500;background:rgba(8,8,8,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 32px;gap:20px;}
+  #chrome{position:fixed;top:0;left:0;right:0;height:58px;z-index:500;background:rgba(247,245,240,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 32px;gap:20px;}
   .ch-logo{font-family:'Cinzel',serif;font-size:17px;color:var(--gold);letter-spacing:.12em;}
   .ch-sep{width:1px;height:20px;background:var(--border);}
   .ch-mode{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;}
@@ -51,7 +51,7 @@
   .view-toggle{display:flex;gap:6px;margin-bottom:24px;align-items:center;}
   .vt-btn{padding:7px 18px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:all .2s;}
   .vt-btn:hover{color:var(--text);border-color:var(--border-hi);}
-  .vt-btn.active{background:var(--gold);color:#080808;border-color:var(--gold);}
+  .vt-btn.active{background:var(--gold);color:#FFFFFF;border-color:var(--gold);}
   .vt-label{font-size:11px;color:var(--dim);margin-left:8px;}
 
   /* REVEAL BTN */
@@ -155,14 +155,14 @@
   .slide-in{animation:slideIn .4s ease;}
 
   /* ADMIN OVERLAY */
-  #adminOverlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+  #adminOverlay{position:fixed;inset:0;background:rgba(30,28,20,.75);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
   #adminOverlay.open{display:flex;}
   .admin-modal{width:480px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:44px;text-align:center;}
   .admin-modal-title{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;}
   .admin-modal-sub{font-size:12px;color:var(--muted);margin-bottom:28px;line-height:1.6;}
   .admin-pw-input{width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:3px;color:var(--text);font-family:'Cinzel',serif;font-size:16px;padding:12px 16px;outline:none;text-align:center;letter-spacing:.3em;margin-bottom:16px;}
   .admin-pw-input:focus{border-color:var(--border-hi);}
-  .admin-btn{width:100%;padding:12px;background:var(--gold);color:#080808;border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+  .admin-btn{width:100%;padding:12px;background:var(--gold);color:#FFFFFF;border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
   .admin-btn:hover{background:var(--gold-light);}
   .admin-err{font-size:12px;color:var(--red);margin-top:10px;min-height:18px;}
   .admin-cancel{font-size:11px;color:var(--dim);cursor:pointer;margin-top:14px;display:block;}
@@ -368,12 +368,12 @@
 <div id="fsBtn" onclick="toggleFS()">⛶ Fullscreen</div>
 
 <!-- ADMIN PASSWORD OVERLAY -->
-<div id="adminOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(8px);">
+<div id="adminOverlay" style="position:fixed;inset:0;background:rgba(30,28,20,.75);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(8px);">
   <div style="width:460px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:44px;text-align:center;">
     <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Admin Access</div>
     <div style="font-size:12px;color:var(--muted);margin-bottom:28px;line-height:1.6;">Enter the facilitator admin password to access data management, editing, and audit logs.</div>
     <input id="adminPwInput" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkAdminPw()" style="width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:3px;color:var(--text);font-family:'Cinzel',serif;font-size:16px;padding:12px 16px;outline:none;text-align:center;letter-spacing:.3em;margin-bottom:16px;">
-    <button onclick="checkAdminPw()" style="width:100%;padding:12px;background:var(--gold);color:#080808;border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;">Enter Admin →</button>
+    <button onclick="checkAdminPw()" style="width:100%;padding:12px;background:var(--gold);color:#FFFFFF;border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;">Enter Admin →</button>
     <div id="adminErr" style="font-size:12px;color:var(--red);margin-top:10px;min-height:18px;"></div>
     <span onclick="closeAdminOverlay()" style="font-size:11px;color:var(--dim);cursor:pointer;margin-top:14px;display:block;">Cancel</span>
   </div>
@@ -419,7 +419,7 @@
         <div style="margin-bottom:10px;"><label style="font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px;">Participant Slug (Name_With_Underscores)</label><input type="text" class="ei" id="tool-slug" placeholder="e.g. Maria_Santos"></div>
         <div style="margin-bottom:10px;"><label style="font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px;">Field Key</label><input type="text" class="ei" id="tool-key" placeholder="e.g. s1_cand1_name"></div>
         <div style="margin-bottom:14px;"><label style="font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px;">Value</label><input type="text" class="ei" id="tool-value" placeholder="Field value"></div>
-        <button onclick="toolAddEntry()" style="padding:8px 18px;background:var(--gold);color:#080808;border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;">Add Entry</button>
+        <button onclick="toolAddEntry()" style="padding:8px 18px;background:var(--gold);color:#FFFFFF;border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;">Add Entry</button>
         <div id="tool-add-msg" style="font-size:11px;margin-top:8px;min-height:16px;"></div>
       </div>
       <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:22px;">
