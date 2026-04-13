@@ -180,8 +180,43 @@
   .adm-tab{padding:10px 20px;cursor:pointer;font-size:12px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px;}
   .adm-tab:hover{color:var(--text);}
   .adm-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
-  .adm-section{display:none;}
-  .adm-section.active{display:block;}
+  .adm-sec-tab{padding:10px 16px;cursor:pointer;font-size:11px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+  .adm-sec-tab:hover{color:var(--text);}
+  .adm-sec-tab.active{color:var(--gold);border-bottom-color:var(--gold);background:var(--bg-card);}
+  .adm-part-item{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-left:3px solid transparent;transition:all .15s;}
+  .adm-part-item:hover{background:rgba(160,120,40,.06);}
+  .adm-part-item.active{border-left-color:var(--gold);background:rgba(160,120,40,.08);}
+  .adm-part-av{width:30px;height:30px;border-radius:50%;background:var(--bg-panel);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;}
+  .adm-part-nm{font-size:12px;font-weight:600;color:var(--text);}
+  .adm-part-bu{font-size:10px;color:var(--muted);}
+  .ef{margin-bottom:16px;}
+  .ef-label{font-size:10px;font-weight:700;color:var(--gold-dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;display:flex;align-items:center;justify-content:space-between;}
+  .ef-input{width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:3px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:9px 12px;outline:none;resize:vertical;transition:border-color .2s;}
+  .ef-input:focus{border-color:var(--border-hi);}
+  .ef-textarea{min-height:80px;}
+  .ef-save-btn{padding:3px 10px;background:rgba(42,107,66,.15);border:1px solid var(--green);border-radius:2px;color:var(--green);font-size:10px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+  .ef-save-btn:hover{background:rgba(42,107,66,.25);}
+  .ef-saved{color:var(--green);font-size:10px;margin-left:6px;opacity:0;transition:opacity .3s;}
+  .ef-saved.show{opacity:1;}
+  .editor-section-hdr{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;margin:24px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--border);}
+  .editor-section-hdr:first-child{margin-top:0;}
+  .editor-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .editor-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+  .editor-cand-block{background:var(--bg-panel);border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:14px;}
+  .editor-cand-num{font-family:'Cinzel',serif;font-size:10px;color:var(--gold-dim);margin-bottom:10px;letter-spacing:.12em;}
+  .rating-select{background:var(--bg-input);border:1px solid var(--border);border-radius:3px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 12px;outline:none;width:100%;cursor:pointer;}
+  .rating-select:focus{border-color:var(--border-hi);}
+  .rating-plus{border-color:var(--green);background:rgba(42,107,66,.1);color:var(--green);}
+  .rating-mixed{border-color:var(--amber);background:rgba(176,112,32,.1);color:var(--amber);}
+  .rating-minus{border-color:var(--red);background:rgba(160,48,48,.1);color:var(--red);}
+  .tier-select-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px;}
+  .tier-opt{border:1px solid var(--border);border-radius:3px;padding:8px;text-align:center;cursor:pointer;transition:all .2s;font-size:11px;font-weight:600;}
+  .tier-opt:hover{transform:translateY(-1px);}
+  .tier-opt.sel{box-shadow:0 0 0 2px var(--gold);}
+  .tier-now{border-color:var(--green);color:var(--green);background:rgba(42,107,66,.08);}
+  .tier-soon{border-color:var(--blue);color:var(--blue);background:rgba(46,95,138,.08);}
+  .tier-later{border-color:var(--amber);color:var(--amber);background:rgba(176,112,32,.08);}
+  .tier-unready{border-color:var(--red);color:var(--red);background:rgba(160,48,48,.08);}
   .adm-section-hdr{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.15em;color:var(--gold-dim);text-transform:uppercase;margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
   .adm-part-block{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:14px;}
   .adm-part-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
@@ -393,8 +428,37 @@
   </div>
 
   <div class="adm-section active" id="adm-data">
-    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">Edit or delete any participant field entry. All changes are saved to Supabase and logged automatically.</div>
-    <div id="adm-data-content"><div style="color:var(--dim);font-style:italic;font-size:13px;">Loading…</div></div>
+    <div style="display:flex;gap:20px;height:calc(100vh - 220px);overflow:hidden;">
+
+      <!-- LEFT: Participant Selector -->
+      <div style="width:220px;flex-shrink:0;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;overflow-y:auto;">
+        <div style="padding:14px 16px;border-bottom:1px solid var(--border);">
+          <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase;margin-bottom:2px;">Participants</div>
+          <div style="font-size:11px;color:var(--muted);">Select to edit</div>
+        </div>
+        <div id="adm-part-list" style="padding:8px 0;"></div>
+      </div>
+
+      <!-- RIGHT: Section Editor -->
+      <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+        <div id="adm-editor-header" style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px 4px 0 0;padding:16px 20px;border-bottom:none;">
+          <div style="font-size:13px;color:var(--dim);font-style:italic;">← Select a participant to begin editing</div>
+        </div>
+        <!-- Section tabs -->
+        <div id="adm-sec-tabs" style="display:none;background:var(--bg-panel);border:1px solid var(--border);border-top:none;display:none;gap:0;overflow-x:auto;">
+          <div class="adm-sec-tab active" data-sec="s1" onclick="switchEditorSection('s1',this)">1 · Candidates</div>
+          <div class="adm-sec-tab" data-sec="s2" onclick="switchEditorSection('s2',this)">2 · Role Map</div>
+          <div class="adm-sec-tab" data-sec="s3" onclick="switchEditorSection('s3',this)">3 · PA & GWC</div>
+          <div class="adm-sec-tab" data-sec="s4" onclick="switchEditorSection('s4',this)">4 · Growth Map</div>
+          <div class="adm-sec-tab" data-sec="s5" onclick="switchEditorSection('s5',this)">5 · Dev Rocks</div>
+          <div class="adm-sec-tab" data-sec="s6" onclick="switchEditorSection('s6',this)">6 · Dashboard</div>
+        </div>
+        <!-- Editor body -->
+        <div id="adm-editor-body" style="flex:1;overflow-y:auto;background:var(--bg-card);border:1px solid var(--border);border-top:none;border-radius:0 0 4px 4px;padding:24px;">
+          <div style="color:var(--dim);font-style:italic;font-size:13px;">Select a participant from the left panel.</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="adm-section" id="adm-participants">
@@ -542,61 +606,343 @@ async function loadAdminData(){
   renderParticipantsMgmt(partList,users,now);
 }
 
+// ── STRUCTURED EDITOR ──
+let EDITOR_SLUG='', EDITOR_PART=null, EDITOR_SEC='s1';
+const CV_NAMES=['Built on Trust (Pagsalig)','We Keep Going & Get Things Done Together (Hiniusang Pagkugi ug Pagtutok)','We Strive to Make Things Better (Pagpalambo)'];
+const GWC_NAMES=['Gets It','Wants It','Capacity'];
+const COMP_NAMES=['Job Knowledge & Skills','Decision Making & Problem Solving','Communication','Planning & Organizing','Leadership','Customer Focus'];
+const EOS_ROCKS=['Succession Plan in Place','Stronger Cash Position','Productivity & Process Efficiencies','Stronger Partnerships & JVs'];
+
 function renderDataMgmt(partList){
-  const el=document.getElementById('adm-data-content'); el.innerHTML='';
-  if(!partList.length){el.innerHTML='<div style="color:var(--dim);font-style:italic;font-size:13px;padding:20px 0;">No participant data found.</div>';return;}
-  const SLABELS={'s1':'Section 1 — Candidates','s2':'Section 2 — Role Map','s3':'Section 3 — PA & GWC','s4':'Section 4 — Growth Maps','s5':'Section 5 — Dev Rocks','s6':'Section 6 — Dashboard'};
+  const list=document.getElementById('adm-part-list'); list.innerHTML='';
+  if(!partList.length){list.innerHTML='<div style="padding:16px;color:var(--dim);font-size:12px;font-style:italic;">No participants yet.</div>';return;}
   partList.forEach(p=>{
     const u=p.user;
-    const block=document.createElement('div'); block.className='adm-part-block';
-    block.innerHTML=`<div class="adm-part-hdr"><div class="adm-av">${u.initials}</div><div><div class="adm-name">${u.name}</div><div class="adm-meta">${u.role} · ${u.bu}</div></div><div class="adm-actions"><button class="btn-danger" onclick="clearParticipantBySlug('${p.slug}','${u.name}')">🗑 Clear All</button></div></div><div id="adm-f-${p.slug}"></div>`;
-    el.appendChild(block);
-    const fd=document.getElementById('adm-f-'+p.slug);
-    const sections={};
-    p.rows.forEach(row=>{
-      if(row.field.startsWith('rating:')||row.field.startsWith('tier:'))return;
-      const sec=row.field.match(/^(s[1-6])/)?row.field.match(/^(s[1-6])/)[1]:'other';
-      if(!sections[sec])sections[sec]=[];
-      sections[sec].push(row);
-    });
-    Object.keys(sections).sort().forEach(sec=>{
-      const hdr=document.createElement('div'); hdr.className='adm-section-hdr'; hdr.textContent=SLABELS[sec]||sec; fd.appendChild(hdr);
-      const tbl=document.createElement('table'); tbl.className='adm-table';
-      tbl.innerHTML='<thead><tr><th style="width:180px;">Field</th><th>Value</th><th style="width:130px;">Last Updated</th><th style="width:120px;">Actions</th></tr></thead>';
-      const tb=document.createElement('tbody');
-      sections[sec].sort((a,b)=>a.field.localeCompare(b.field)).forEach(row=>{
-        const eid='ei-'+btoa(row.fullKey).replace(/[^a-zA-Z0-9]/g,'');
-        const rid='ar-'+btoa(row.fullKey).replace(/[^a-zA-Z0-9]/g,'');
-        const upd=row.updated_at?new Date(row.updated_at).toLocaleString('en-PH',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
-        const tr=document.createElement('tr'); tr.id=rid;
-        tr.innerHTML=`<td style="color:var(--gold-dim);font-family:monospace;font-size:10px;">${row.field}</td>
-          <td><input type="text" class="ei" id="${eid}" value="${(row.value||'').replace(/"/g,'&quot;').replace(/</g,'&lt;')}" data-orig="${(row.value||'').replace(/"/g,'&quot;').replace(/</g,'&lt;')}"></td>
-          <td style="color:var(--muted);font-size:10px;">${row.updated_by||'—'}<br>${upd}</td>
-          <td><button class="btn-save" onclick="saveEdit('${row.fullKey}','${u.name}','${eid}')">Save</button><button class="btn-del" onclick="delField('${row.fullKey}','${u.name}','${row.field}','${rid}')">Del</button></td>`;
-        tb.appendChild(tr);
-      });
-      tbl.appendChild(tb); fd.appendChild(tbl);
-    });
+    const div=document.createElement('div'); div.className='adm-part-item'; div.dataset.slug=p.slug;
+    div.innerHTML=`<div class="adm-part-av">${u.initials}</div><div><div class="adm-part-nm">${u.name}</div><div class="adm-part-bu">${u.bu}</div></div>`;
+    div.onclick=()=>openParticipantEditor(p, div);
+    list.appendChild(div);
   });
 }
 
-async function saveEdit(fullKey,userName,eid){
-  const input=document.getElementById(eid); if(!input)return;
-  const nv=input.value, orig=input.dataset.orig;
-  if(nv===orig){showToast('No changes.');return;}
-  await dbUpsert(fullKey,nv,'Facilitator');
-  input.dataset.orig=nv;
-  await writeAudit('Facilitator','EDIT',`Edited field for ${userName}`,`${fullKey.split(':').pop()} → "${nv.slice(0,60)}${nv.length>60?'…':''}"`);
-  showToast('✓ Saved');
+function openParticipantEditor(p, el){
+  document.querySelectorAll('.adm-part-item').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  EDITOR_SLUG=p.slug; EDITOR_PART=p;
+  // Show header
+  const u=p.user;
+  document.getElementById('adm-editor-header').innerHTML=`
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="adm-part-av" style="width:36px;height:36px;font-size:12px;">${u.initials}</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--gold);">${u.name}</div>
+        <div style="font-size:11px;color:var(--muted);">${u.role} · ${u.bu}</div>
+      </div>
+      <button onclick="clearParticipantBySlug('${p.slug}','${u.name}')" style="margin-left:auto;padding:6px 12px;background:rgba(160,48,48,.1);border:1px solid var(--red);border-radius:3px;color:var(--red);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;">🗑 Clear All Data</button>
+    </div>`;
+  // Show section tabs
+  const tabs=document.getElementById('adm-sec-tabs');
+  tabs.style.display='flex';
+  // Switch to current section
+  switchEditorSection(EDITOR_SEC, document.querySelector(`.adm-sec-tab[data-sec="${EDITOR_SEC}"]`));
 }
 
-async function delField(fullKey,userName,fieldName,rowId){
-  if(!confirm(`Delete field "${fieldName}" for ${userName}?\nThis cannot be undone.`))return;
-  await dbDelete(fullKey);
-  await writeAudit('Facilitator','DELETE',`Deleted field for ${userName}`,fieldName);
-  const row=document.getElementById(rowId);
-  if(row){row.style.opacity='0';row.style.transition='opacity .3s';setTimeout(()=>row.remove(),300);}
-  showToast('🗑 Deleted');
+function switchEditorSection(sec, el){
+  EDITOR_SEC=sec;
+  document.querySelectorAll('.adm-sec-tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  if(!EDITOR_PART) return;
+  renderEditorSection(EDITOR_PART, sec);
+}
+
+function getV(p, key){ const r=p.rows.find(x=>x.field===key); return r?r.value:''; }
+
+function efRow(label, key, p, multiline=false, hint=''){
+  const val=(getV(p,key)||'').replace(/"/g,'&quot;');
+  const eid='ef_'+key.replace(/[^a-zA-Z0-9]/g,'_');
+  const savedId='efSv_'+eid;
+  const tag=multiline?'textarea':'input';
+  const attrs=multiline?`class="ef-input ef-textarea" rows="3"`:`class="ef-input" type="text"`;
+  return `<div class="ef">
+    <div class="ef-label">${label}
+      <span><button class="ef-save-btn" onclick="saveEF('${key}','${eid}','${savedId}')">Save</button>
+      <span class="ef-saved" id="${savedId}">✓ Saved</span></span>
+    </div>
+    ${hint?`<div style="font-size:11px;color:var(--muted);margin-bottom:5px;font-style:italic;">${hint}</div>`:''}
+    <${tag} id="${eid}" data-key="${key}" ${attrs}${multiline?'':` value="${val}"`}>${multiline?val:''}</${tag}>
+  </div>`;
+}
+
+function ratingRow(label, key, p){
+  const val=getV(p,'rating:'+key);
+  const cls=val==='plus'?'rating-plus':val==='mixed'?'rating-mixed':val==='minus'?'rating-minus':'';
+  const eid='ef_rating_'+key.replace(/[^a-zA-Z0-9]/g,'_');
+  const savedId='efSv_'+eid;
+  return `<div class="ef">
+    <div class="ef-label" style="font-size:10px;">${label}
+      <span><button class="ef-save-btn" onclick="saveRating('${key}','${eid}','${savedId}')">Save</button>
+      <span class="ef-saved" id="${savedId}">✓</span></span>
+    </div>
+    <select id="${eid}" class="rating-select ${cls}" onchange="this.className='rating-select '+({'plus':'rating-plus','mixed':'rating-mixed','minus':'rating-minus','':''}[this.value]||'')">
+      <option value="" ${!val?'selected':''}>— Not rated</option>
+      <option value="plus" ${val==='plus'?'selected':''}">+ Yes (Consistent)</option>
+      <option value="mixed" ${val==='mixed'?'selected':''}">+/– Sometimes</option>
+      <option value="minus" ${val==='minus'?'selected':''}">– No (Absent)</option>
+    </select>
+  </div>`;
+}
+
+function tierSelector(key, p){
+  const val=getV(p,'tier:'+key);
+  const savedId='efSv_tier_'+key.replace(/[^a-zA-Z0-9]/g,'_');
+  const tiers=[
+    {v:'now',  l:'Ready Now',  sub:'3/3 CV · 3/3 GWC · 6/6', cls:'tier-now'},
+    {v:'soon', l:'Ready Soon', sub:'3/3 CV · 2/3 GWC · 4+',  cls:'tier-soon'},
+    {v:'later',l:'Ready Later',sub:'3/3 CV · 1/3 GWC · 3+',  cls:'tier-later'},
+    {v:'unready',l:'Unready', sub:'Any CV– · 0/3',             cls:'tier-unready'},
+  ];
+  return `<div class="ef">
+    <div class="ef-label">Readiness Tier
+      <span><button class="ef-save-btn" onclick="saveTierAdmin('${key}','${savedId}')">Save</button>
+      <span class="ef-saved" id="${savedId}">✓</span></span>
+    </div>
+    <div class="tier-select-wrap" id="tiersel_${key.replace(/[^a-zA-Z0-9]/g,'_')}">
+      ${tiers.map(ti=>`<div class="tier-opt ${ti.cls} ${val===ti.v?'sel':''}" data-val="${ti.v}" onclick="selectTier('${key}',this)">${ti.l}<div style="font-size:9px;margin-top:3px;opacity:.7;">${ti.sub}</div></div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function selectTier(key, el){
+  const wrap=el.parentElement;
+  wrap.querySelectorAll('.tier-opt').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+async function saveTierAdmin(key, savedId){
+  const wrap=document.getElementById('tiersel_'+key.replace(/[^a-zA-Z0-9]/g,'_'));
+  const sel=wrap?wrap.querySelector('.tier-opt.sel'):null;
+  if(!sel){showToast('Select a tier first.');return;}
+  const val=sel.dataset.val;
+  const fullKey='p:'+EDITOR_SLUG+':tier:'+key;
+  await dbUpsert(fullKey, val, 'Facilitator');
+  await writeAudit('Facilitator','EDIT',`Edited tier for ${EDITOR_PART.user.name}`, key+' → '+val);
+  flashSaved(savedId);
+  // Refresh participant data
+  EDITOR_PART.rows=EDITOR_PART.rows.filter(r=>r.field!=='tier:'+key);
+  EDITOR_PART.rows.push({field:'tier:'+key, value:val, fullKey, updated_by:'Facilitator'});
+}
+
+async function saveRating(key, eid, savedId){
+  const sel=document.getElementById(eid); if(!sel)return;
+  const val=sel.value;
+  const fullKey='p:'+EDITOR_SLUG+':rating:'+key;
+  await dbUpsert(fullKey, val, 'Facilitator');
+  await writeAudit('Facilitator','EDIT',`Edited rating for ${EDITOR_PART.user.name}`, key+' → '+val);
+  flashSaved(savedId);
+  EDITOR_PART.rows=EDITOR_PART.rows.filter(r=>r.field!=='rating:'+key);
+  if(val) EDITOR_PART.rows.push({field:'rating:'+key, value:val, fullKey, updated_by:'Facilitator'});
+}
+
+async function saveEF(key, eid, savedId){
+  const el=document.getElementById(eid); if(!el)return;
+  const val=el.tagName==='TEXTAREA'?el.value:el.value;
+  const fullKey='p:'+EDITOR_SLUG+':'+key;
+  await dbUpsert(fullKey, val, 'Facilitator');
+  await writeAudit('Facilitator','EDIT',`Edited ${key} for ${EDITOR_PART.user.name}`, `"${val.slice(0,60)}${val.length>60?'…':''}"`);
+  flashSaved(savedId);
+  EDITOR_PART.rows=EDITOR_PART.rows.filter(r=>r.field!==key);
+  if(val) EDITOR_PART.rows.push({field:key, value:val, fullKey, updated_by:'Facilitator'});
+}
+
+function flashSaved(id){
+  const el=document.getElementById(id); if(!el)return;
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),2200);
+}
+
+function renderEditorSection(p, sec){
+  const body=document.getElementById('adm-editor-body');
+  body.innerHTML='';
+
+  if(sec==='s1'){
+    body.innerHTML=`
+      <div class="editor-section-hdr">Role Being Planned For</div>
+      <div class="editor-grid-2">${efRow('Critical Role / Position','s1_role',p)}${efRow('Current Role Holder','s1_holder',p)}</div>
+      ${efRow('Why is this role critical to PGB\'s continuity?','s1_why_critical',p,true,'What breaks down if this role is vacant for 30 days?')}
+      <div class="editor-section-hdr">Nominated Candidates</div>
+      ${[1,2,3,4].map(i=>`
+        <div class="editor-cand-block">
+          <div class="editor-cand-num">CANDIDATE 0${i}</div>
+          <div class="editor-grid-2">${efRow('Full Name','s1_cand'+i+'_name',p)}${efRow('Current Role','s1_cand'+i+'_role',p)}</div>
+          <div class="editor-grid-2">${efRow('Target / Succession Role','s1_cand'+i+'_target',p)}${efRow('SBU / Function','s1_cand'+i+'_sbu',p)}</div>
+          ${efRow('Why Nominated — Specific Observation','s1_cand'+i+'_why',p,true,'What specific behavior or result makes this person a candidate?')}
+        </div>`).join('')}
+      <div class="editor-section-hdr">Talent Pool Reflection</div>
+      <div class="editor-grid-2">
+        ${efRow('Direct Reports — Who is growing beyond their role?','s1_pool_direct',p,true)}
+        ${efRow('Emerging Leaders — Who 1–2 levels down is underestimated?','s1_pool_emerging',p,true)}
+        ${efRow('Cross-Functional — Who has the strategic scope?','s1_pool_cross',p,true)}
+        ${efRow('Who Might You Overlook — and why?','s1_pool_overlook',p,true)}
+      </div>`;
+  }
+
+  else if(sec==='s2'){
+    body.innerHTML=`
+      <div class="editor-section-hdr">Role Being Defined</div>
+      <div class="editor-grid-2">${efRow('Role Being Defined','s2_role',p)}${efRow('Current Holder','s2_holder',p)}</div>
+      <div class="editor-section-hdr">The 4 Essential Questions</div>
+      ${efRow('1. Accountability 1','s2_acc1',p,false,'Outcome-based — verifiable, specific, time-bound')}
+      ${efRow('2. Accountability 2','s2_acc2',p,false)}
+      ${efRow('3. Accountability 3','s2_acc3',p,false)}
+      ${efRow('What does excellence look like?','s2_excellence',p,true,'Observable behaviors only — not adjectives')}
+      ${[1,2,3,4,5].map(i=>efRow('Key Relationship '+i,'s2_rel'+i,p,false)).join('')}
+      ${efRow('Common Failure Modes','s2_failures',p,true,'Where do people struggle? These become non-negotiable development priorities.')}
+      <div class="editor-section-hdr">Phased Transition Plan</div>
+      ${efRow('Phase 1 · Shadow & Learn (Months 1–3)','s2_phase1',p,true)}
+      ${efRow('Phase 2 · Lead with Support (Months 3–6)','s2_phase2',p,true)}
+      ${efRow('Phase 3 · Full Handover (Month 6+)','s2_phase3',p,true)}`;
+  }
+
+  else if(sec==='s3'){
+    body.innerHTML=`
+      <div class="editor-section-hdr">Candidate Being Assessed</div>
+      <div class="editor-grid-2">${efRow('Candidate Name','s3_c1_name',p)}${efRow('Target Role','s3_c1_target',p)}</div>
+      <div class="editor-section-hdr">Core Values — All 3 must score "+" to qualify</div>
+      <div style="display:grid;grid-template-columns:1fr;gap:8px;">
+        ${CV_NAMES.map((n,i)=>ratingRow(n,'s3_c1_cv'+i,p)).join('')}
+      </div>
+      <div class="editor-section-hdr">GWC — Minimum 1 of 3 to qualify</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+        ${GWC_NAMES.map((n,i)=>ratingRow(n,'s3_c1_gwc'+i,p)).join('')}
+      </div>
+      <div class="editor-section-hdr">Competency Assessment</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        ${COMP_NAMES.map((n,i)=>ratingRow((i+1)+'. '+n,'s3_c1_comp'+i,p)).join('')}
+      </div>
+      <div class="editor-section-hdr">Readiness Tier</div>
+      ${tierSelector('s3_c1_tier',p)}
+      ${efRow('Development Focus','s3_c1_devfocus',p,true,'Top 2–3 development priorities based on the ratings above')}
+      <div style="margin-top:16px;padding:12px;background:var(--bg-panel);border-radius:3px;border:1px solid var(--border);">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:600;">Additional Candidates (2, 3, 4)</div>
+        <div style="font-size:12px;color:var(--muted);">Use the same pattern. Edit Candidate 2 by changing the field prefix to <code style="background:var(--bg-input);padding:1px 5px;border-radius:2px;">s3_c2_</code>, Candidate 3 to <code style="background:var(--bg-input);padding:1px 5px;border-radius:2px;">s3_c3_</code>, etc.</div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+          ${[2,3,4].map(i=>`<button onclick="switchCandidateEditor(${i})" style="padding:6px 14px;background:var(--bg-input);border:1px solid var(--border);border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);cursor:pointer;">Edit Candidate ${i}</button>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  else if(sec==='s4'){
+    body.innerHTML=`
+      <div class="editor-section-hdr">Growth Journey Map — Successor 1</div>
+      <div class="editor-grid-3">${efRow('Successor Name','s4_m1_name',p)}${efRow('Readiness Tier','s4_m1_tier',p)}${efRow('Target Role','s4_m1_target',p)}</div>
+      ${efRow('Competency Focus (max 3 — name HOW, not just that they will)','s4_m1_comp',p,true)}
+      ${efRow('Stretch Assignment','s4_m1_stretch',p,true,'Specific deliverable, scope, and deadline.')}
+      <div class="editor-section-hdr">Milestone Targets</div>
+      <div class="editor-grid-2">
+        ${efRow('0–3 Months','s4_m1_ms1',p,true)}${efRow('3–6 Months','s4_m1_ms2',p,true)}
+        ${efRow('6–12 Months','s4_m1_ms3',p,true,'Ready Later path only')}${efRow('12–18 Months','s4_m1_ms4',p,true,'Ready Later path only')}
+      </div>
+      ${efRow('Support Needed','s4_m1_support',p,true,'Named mentor · Training program · Barriers to remove')}
+      ${efRow('Readiness Milestone','s4_m1_readiness',p,true,'Single observable criteria — must be verifiable, not a feeling')}
+      <div style="margin-top:16px;padding:12px;background:var(--bg-panel);border-radius:3px;border:1px solid var(--border);">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:600;">Additional Successors</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          ${[2,3,4].map(i=>`<button onclick="switchMapEditor(${i})" style="padding:6px 14px;background:var(--bg-input);border:1px solid var(--border);border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);cursor:pointer;">Map ${i}</button>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  else if(sec==='s5'){
+    body.innerHTML=`
+      ${[1,2,3].map(i=>`
+        <div class="editor-section-hdr">Rock ${i}</div>
+        <div class="editor-grid-2">${efRow('Successor This Rock Serves','s5_r'+i+'_successor',p)}
+          <div class="ef"><div class="ef-label">Links to EOS Rock <span><button class="ef-save-btn" onclick="saveEF('s5_r${i}_eos','ef_s5_r${i}_eos','efSv_ef_s5_r${i}_eos')">Save</button><span class="ef-saved" id="efSv_ef_s5_r${i}_eos">✓</span></span></div>
+          <select id="ef_s5_r${i}_eos" class="ef-input" style="resize:none;">
+            ${EOS_ROCKS.map(r=>`<option value="${r}" ${getV(p,'s5_r'+i+'_eos')===r?'selected':''}>${r}</option>`).join('')}
+          </select></div>
+        </div>
+        ${efRow('Development Rock Statement (SMART)','s5_r'+i+'_statement',p,true)}
+        <div class="editor-grid-3">
+          ${efRow('KPI / Measurable Outcome','s5_r'+i+'_kpi',p)}
+          ${efRow('Due Date (specific)','s5_r'+i+'_date',p)}
+          ${efRow('Rock Owner','s5_r'+i+'_owner',p)}
+        </div>`).join('')}`;
+  }
+
+  else if(sec==='s6'){
+    body.innerHTML=`
+      <div class="editor-section-hdr">Succession Dashboard Entries</div>
+      ${[1,2,3,4].map(i=>`
+        <div class="editor-cand-block">
+          <div class="editor-cand-num">ENTRY 0${i}</div>
+          <div class="editor-grid-3">
+            ${efRow('Successor Name','s6_d'+i+'_name',p)}
+            ${efRow('Current Role','s6_d'+i+'_cur',p)}
+            <div class="ef"><div class="ef-label">Readiness Tier <span><button class="ef-save-btn" onclick="saveEF('s6_d${i}_tier','ef_s6_d${i}_tier','efSv_ef_s6_d${i}_tier')">Save</button><span class="ef-saved" id="efSv_ef_s6_d${i}_tier">✓</span></span></div>
+            <select id="ef_s6_d${i}_tier" class="ef-input" style="resize:none;">
+              <option value="" ${!getV(p,'s6_d'+i+'_tier')?'selected':''}>— Select</option>
+              ${['Ready Now','Ready Soon','Ready Later','Unready'].map(t=>`<option value="${t}" ${getV(p,'s6_d'+i+'_tier')===t?'selected':''}>${t}</option>`).join('')}
+            </select></div>
+          </div>
+          <div class="editor-grid-3">
+            ${efRow('Current Dev Rock','s6_d'+i+'_rock',p)}
+            ${efRow('Mentor','s6_d'+i+'_mentor',p)}
+            ${efRow('Next Milestone Date','s6_d'+i+'_date',p)}
+          </div>
+          ${efRow('Next Milestone','s6_d'+i+'_ms',p)}
+          ${efRow('Blockers','s6_d'+i+'_blocker',p,true)}
+        </div>`).join('')}
+      <div class="editor-section-hdr">Governance</div>
+      <div class="editor-grid-2">
+        ${efRow('Weekly 1:1 Owner','s6_gov_weekly',p)}
+        ${efRow('First Quarterly Review Date','s6_gov_quarterly',p)}
+        ${efRow('Annual Workshop Date','s6_gov_annual',p)}
+        ${efRow('Dashboard Owner','s6_gov_owner',p)}
+      </div>
+      ${efRow('My Commitment (Next 7 Days)','commitment',p,true,'Specific · Name names · Name dates')}`;
+  }
+}
+
+function switchCandidateEditor(n){
+  // Rebuild S3 editor for candidate N
+  const body=document.getElementById('adm-editor-body');
+  const p=EDITOR_PART;
+  body.innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+      ${[1,2,3,4].map(i=>`<button onclick="switchCandidateEditor(${i})" style="padding:6px 14px;background:${i===n?'var(--gold)':'var(--bg-input)'};border:1px solid ${i===n?'var(--gold)':'var(--border)'};border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;color:${i===n?'#FFF':'var(--muted)'};cursor:pointer;font-weight:${i===n?'700':'400'};">Candidate ${i}</button>`).join('')}
+    </div>
+    <div class="editor-section-hdr">Candidate ${n} — Identity</div>
+    <div class="editor-grid-2">${efRow('Candidate Name','s3_c'+n+'_name',p)}${efRow('Target Role','s3_c'+n+'_target',p)}</div>
+    <div class="editor-section-hdr">Core Values</div>
+    <div style="display:grid;grid-template-columns:1fr;gap:8px;">${CV_NAMES.map((nm,i)=>ratingRow(nm,'s3_c'+n+'_cv'+i,p)).join('')}</div>
+    <div class="editor-section-hdr">GWC</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">${GWC_NAMES.map((nm,i)=>ratingRow(nm,'s3_c'+n+'_gwc'+i,p)).join('')}</div>
+    <div class="editor-section-hdr">Competencies</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">${COMP_NAMES.map((nm,i)=>ratingRow((i+1)+'. '+nm,'s3_c'+n+'_comp'+i,p)).join('')}</div>
+    <div class="editor-section-hdr">Tier & Dev Focus</div>
+    ${tierSelector('s3_c'+n+'_tier',p)}
+    ${efRow('Development Focus','s3_c'+n+'_devfocus',p,true)}`;
+}
+
+function switchMapEditor(n){
+  const body=document.getElementById('adm-editor-body');
+  const p=EDITOR_PART;
+  body.innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+      ${[1,2,3,4].map(i=>`<button onclick="switchMapEditor(${i})" style="padding:6px 14px;background:${i===n?'var(--gold)':'var(--bg-input)'};border:1px solid ${i===n?'var(--gold)':'var(--border)'};border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;color:${i===n?'#FFF':'var(--muted)'};cursor:pointer;font-weight:${i===n?'700':'400'};">Map ${i}</button>`).join('')}
+    </div>
+    <div class="editor-section-hdr">Growth Journey Map — Successor ${n}</div>
+    <div class="editor-grid-3">${efRow('Successor Name','s4_m'+n+'_name',p)}${efRow('Readiness Tier','s4_m'+n+'_tier',p)}${efRow('Target Role','s4_m'+n+'_target',p)}</div>
+    ${efRow('Competency Focus','s4_m'+n+'_comp',p,true)}
+    ${efRow('Stretch Assignment','s4_m'+n+'_stretch',p,true)}
+    <div class="editor-section-hdr">Milestones</div>
+    <div class="editor-grid-2">
+      ${efRow('0–3 Months','s4_m'+n+'_ms1',p,true)}${efRow('3–6 Months','s4_m'+n+'_ms2',p,true)}
+      ${efRow('6–12 Months','s4_m'+n+'_ms3',p,true)}${efRow('12–18 Months','s4_m'+n+'_ms4',p,true)}
+    </div>
+    ${efRow('Support Needed','s4_m'+n+'_support',p,true)}
+    ${efRow('Readiness Milestone','s4_m'+n+'_readiness',p,true)}`;
 }
 
 function renderParticipantsMgmt(partList,onlineUsers,now){
